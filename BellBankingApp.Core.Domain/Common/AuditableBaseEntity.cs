@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BellBanking.Core.Domain.Common
+namespace BellBankingApp.Core.Domain.Common
 {
     public class AuditableBaseEntity
     {

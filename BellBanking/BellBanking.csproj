@@ -6,4 +6,17 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.20">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BellBankingApp.Core.Application\BellBankingApp.Core.Application.csproj" />
+    <ProjectReference Include="..\BellBankingApp.Infrastructure.Identity\BellBankingApp.Infrastructure.Identity.csproj" />
+    <ProjectReference Include="..\BellBankingApp.Infrastructure.Persistence\BellBankingApp.Infrastructure.Persistence.csproj" />
+  </ItemGroup>
+
 </Project>

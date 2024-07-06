@@ -1,6 +1,6 @@
-﻿using BellBanking.Core.Application.Interfaces.Repositories;
-using BellBanking.Infrastructure.Persistence.Contexts;
-using BellBanking.Infrastructure.Persistence.Repositories;
+﻿using BellBankingApp.Core.Application.Interfaces.Repositories;
+using BellBankingApp.Infrastructure.Persistence.Contexts;
+using BellBankingApp.Infrastructure.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BellBanking.Infrastructure.Persistence
+namespace BellBankingApp.Infrastructure.Persistence
 {
     public static class ServiceRegistration
     {

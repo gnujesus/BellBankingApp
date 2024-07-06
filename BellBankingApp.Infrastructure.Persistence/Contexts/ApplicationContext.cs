@@ -1,5 +1,5 @@
-﻿using BellBanking.Core.Domain.Common;
-using BellBanking.Core.Domain.Entities;
+﻿using BellBankingApp.Core.Domain.Common;
+using BellBankingApp.Core.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BellBanking.Infrastructure.Persistence.Contexts
+namespace BellBankingApp.Infrastructure.Persistence.Contexts
 {
     public class ApplicationContext : DbContext
     {

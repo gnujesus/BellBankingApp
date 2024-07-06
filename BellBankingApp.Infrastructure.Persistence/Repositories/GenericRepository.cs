@@ -1,5 +1,5 @@
-﻿using BellBanking.Core.Application.Interfaces.Repositories;
-using BellBanking.Infrastructure.Persistence.Contexts;
+﻿using BellBankingApp.Core.Application.Interfaces.Repositories;
+using BellBankingApp.Infrastructure.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BellBanking.Infrastructure.Persistence.Repositories
+namespace BellBankingApp.Infrastructure.Persistence.Repositories
 {
     public class GenericRepository<Entity> : IGenericRepository<Entity> where Entity : class
     {

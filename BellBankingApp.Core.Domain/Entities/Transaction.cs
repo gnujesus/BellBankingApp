@@ -10,8 +10,8 @@ namespace BellBankingApp.Core.Domain.Entities
     public class Transaction : AuditableBaseEntity
     {
         public decimal Amount { get; set; }
-        public string OriginAccount { get; set; }
-        public string DestinationAccount { get; set; }
+        public int OriginProductId { get; set; }
+        public int DestinationProductId { get; set; }
 
 
         // Navigation properties

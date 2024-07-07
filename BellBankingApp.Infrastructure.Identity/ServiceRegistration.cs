@@ -41,8 +41,8 @@ namespace BellBankingApp.Infrastructure.Identity
 
             services.ConfigureApplicationCookie(options =>
             {
-                options.LoginPath = "/User";
-                options.AccessDeniedPath = "/User/AccessDenied";
+                options.LoginPath = "/Login";
+                options.AccessDeniedPath = "/Login/AccessDenied";
             });
 
             services.AddAuthentication();

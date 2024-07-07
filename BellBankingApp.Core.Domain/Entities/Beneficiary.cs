@@ -9,7 +9,7 @@ namespace BellBankingApp.Core.Domain.Entities
 {
     public class Beneficiary : AuditableBaseEntity
     {
-        public string ProductId { get; set; }
+        public int ProductId { get; set; }
         public string UserId { get; set; }
 
         //Navigation properties

@@ -82,15 +82,15 @@ namespace BellBankingApp.Infrastructure.Persistence.Contexts
 
             // Transaction - OriginProduct
             modelBuilder.Entity<Transaction>()
-                .HasOne(t => t.OriginAccount)
+                .HasOne(t => t.OriginProduct)
                 .WithMany()
-                .HasForeignKey(t => t.OriginAccount);
+                .HasForeignKey(t => t.OriginProductId);
 
             // Transaction - DestinationProduct
             modelBuilder.Entity<Transaction>()
                 .HasOne(t => t.DestinationProduct)
                 .WithMany()
-                .HasForeignKey(t => t.DestinationAccount);
+                .HasForeignKey(t => t.DestinationProductId);
             #endregion
 
             #region

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BellBanking.Core.Application.Interfaces.Repositories
+namespace BellBankingApp.Core.Application.Interfaces.Repositories
 {
     public interface IGenericRepository<Entity> where Entity : class
     {

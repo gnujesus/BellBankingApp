@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BellBanking", "BellBanking\BellBanking.csproj", "{5FBAF675-9958-4E09-A205-0E0C0FD0B597}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApp.BellBankingApp", "BellBanking\WebApp.BellBankingApp.csproj", "{5FBAF675-9958-4E09-A205-0E0C0FD0B597}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BellBankingApp.Core.Domain", "BellBankingApp.Core.Domain\BellBankingApp.Core.Domain.csproj", "{61721D83-ED0B-483D-AB3B-1DCE691F0432}"
 EndProject
@@ -11,7 +11,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BellBankingApp.Core.Applica
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BellBankingApp.Infrastructure.Persistence", "BellBankingApp.Infrastructure.Persistence\BellBankingApp.Infrastructure.Persistence.csproj", "{16275038-ECE6-473F-A514-3AADF6237DF9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BellBankingApp.Infrastructure.Identity", "BellBankingApp.Infrastructure.Identity\BellBankingApp.Infrastructure.Identity.csproj", "{DFF207E5-46D8-4AC6-8A2C-5A7469E47241}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BellBankingApp.Infrastructure.Identity", "BellBankingApp.Infrastructure.Identity\BellBankingApp.Infrastructure.Identity.csproj", "{DFF207E5-46D8-4AC6-8A2C-5A7469E47241}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{685E75F8-931B-4399-87BE-CB03C129093B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{F8D53AC6-88F3-4468-8766-C47DDD9F60BB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebApp", "WebApp", "{6EA077BB-7660-49DB-90BC-687D1CF026EA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,6 +48,13 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{5FBAF675-9958-4E09-A205-0E0C0FD0B597} = {6EA077BB-7660-49DB-90BC-687D1CF026EA}
+		{61721D83-ED0B-483D-AB3B-1DCE691F0432} = {685E75F8-931B-4399-87BE-CB03C129093B}
+		{ADD29EAD-83C2-4AF5-839C-2A9ED079C290} = {685E75F8-931B-4399-87BE-CB03C129093B}
+		{16275038-ECE6-473F-A514-3AADF6237DF9} = {F8D53AC6-88F3-4468-8766-C47DDD9F60BB}
+		{DFF207E5-46D8-4AC6-8A2C-5A7469E47241} = {F8D53AC6-88F3-4468-8766-C47DDD9F60BB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DB93F663-E66A-4D19-8D7D-CCF3F61986EC}

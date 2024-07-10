@@ -3,9 +3,7 @@ using BellBankingApp.Core.Application.Helpers;
 using BellBankingApp.Core.Application.DTOs.Account;
 using BellBankingApp.Core.Application.Interfaces.Services;
 using BellBankingApp.Core.Application.ViewModels.User;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using BellBankingApp.Core.Application.Enums;
 
 namespace BellBanking.Controllers
 {
@@ -17,6 +15,7 @@ namespace BellBanking.Controllers
         {
             _loginService = loginService;
         }
+
         [ServiceFilter(typeof(LoginAuthorize))]
         // GET: LoginController
         public IActionResult Index()
@@ -35,7 +34,7 @@ namespace BellBanking.Controllers
             }
 
             AuthenticationResponse userVm = await _loginService.LoginAsync(loginVm);
-            if (userVm != null && userVm.HasError != true)
+            if (userVm != null && !userVm.HasError)
             {
                 HttpContext.Session.Set<AuthenticationResponse>(userVm.Role, userVm);
                 return RedirectToRoute(new { controller = "Home", action = "Index" });
@@ -46,13 +45,12 @@ namespace BellBanking.Controllers
                 loginVm.Error = userVm.Error;
                 return View(loginVm);
             }
-
         }
+
         public async Task<IActionResult> LogOut()
         {
             await _loginService.SignOutAsync();
-            HttpContext.Session.Remove(Roles.Admin.ToString());
-            HttpContext.Session.Remove(Roles.Customer.ToString());
+            HttpContext.Session.Clear();
             return RedirectToRoute(new { controller = "Login", action = "Index" });
         }
     }

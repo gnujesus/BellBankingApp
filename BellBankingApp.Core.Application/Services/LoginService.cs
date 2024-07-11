@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BellBankingApp.Core.Application.DTOs.Account;
 using BellBankingApp.Core.Application.Interfaces.Services;
+using BellBankingApp.Core.Application.ViewModels.Login;
 using BellBankingApp.Core.Application.ViewModels.User;
 using System;
 using System.Collections.Generic;
@@ -27,7 +28,7 @@ namespace BellBankingApp.Core.Application.Services
             return userResponse;
         }
 
-        public async Task<RegisterResponse> RegisterAsync(SaveUserViewModel vm)
+        public async Task<RegisterResponse> RegisterAsync(RegisterViewModel vm)
         {
             RegisterRequest registerRequest = _mapper.Map<RegisterRequest>(vm);
             return await _accountService.RegisterUserAsync(registerRequest);
@@ -38,7 +39,7 @@ namespace BellBankingApp.Core.Application.Services
             await _accountService.SignOutAsync();
         }
 
-        public async Task<UpdateResponse> UpdateAsync(SaveUserViewModel vm)
+        public async Task<UpdateResponse> UpdateAsync(RegisterViewModel vm)
         {
             UpdateRequest updateRequest = _mapper.Map<UpdateRequest>(vm);
             return await _accountService.UpdateUserAsync(updateRequest);

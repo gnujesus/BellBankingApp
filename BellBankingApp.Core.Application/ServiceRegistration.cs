@@ -19,10 +19,10 @@ namespace BellBankingApp.Core.Application
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
             #region Services
-            //services.AddTransient(typeof(IGenericService<,,>) typeof(GenericService<,,>));
-            //services.AddTransient(IProductRepository, ProductService());
-            //services.AddTransient(IBeneficiaryRepository, BeneficiaryService());
-            //services.AddTransient(ITransactionRepository, TransactionService());
+            services.AddTransient(typeof(IGenericService<,,>), typeof(GenericService<,,>));
+            services.AddTransient<IProductService, ProductService>();
+            services.AddTransient<IBeneficiaryService, BeneficiaryService>();
+            services.AddTransient<ITransactionService, TransactionService>();
             services.AddTransient<ILoginService, LoginService>();
             #endregion
         }

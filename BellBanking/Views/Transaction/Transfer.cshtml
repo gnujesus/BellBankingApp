@@ -1,7 +1,24 @@
-﻿@model SaveUserViewModel
+﻿@inject IHttpContextAccessor httpContextAccesor
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+@{
+    AuthenticationResponse user = new();
+    var admin = httpContextAccesor.HttpContext.Session.Get<AuthenticationResponse>(Roles.Admin.ToString());
+    var customer = httpContextAccesor.HttpContext.Session.Get<AuthenticationResponse>(Roles.Customer.ToString());
+    if (admin != null)
+    {
+        user = admin;
+    }
+    else
+    {
+        user = customer;
+    }
+}
 
 <div class="container mx-auto max-w-7xl">
-    <h1 class="text-2xl font-bold mb-4">We need some data before we can proceed, @Model.Username.</h1>
+    <h1 class="text-2xl font-bold mb-4">We need some data before we can proceed, @user.UserName</h1>
 
     <div class="bg-white p-6 rounded-lg shadow-md">
         <div class="grid grid-cols-2 gap-6 mb-6">

@@ -1,16 +1,12 @@
-﻿@using BellBankingApp.Core.Application.Helpers;
-@using BellBankingApp.Core.Application.DTOs.Account;
-@using BellBankingApp.Core.Application.Enums;
+﻿@model List<BeneficiaryViewModel>
 
-@inject IHttpContextAccessor httpContextAccesor
+@inject IHttpContextAccessor httpContextAccessor
 @{
     ViewData["Title"] = "Home Page";
-}
 
-@{
     AuthenticationResponse user = new();
-    var admin = httpContextAccesor.HttpContext.Session.Get<AuthenticationResponse>(Roles.Admin.ToString());
-    var customer = httpContextAccesor.HttpContext.Session.Get<AuthenticationResponse>(Roles.Customer.ToString());
+    var admin = httpContextAccessor.HttpContext.Session.Get<AuthenticationResponse>(Roles.Admin.ToString());
+    var customer = httpContextAccessor.HttpContext.Session.Get<AuthenticationResponse>(Roles.Customer.ToString());
     if (admin != null)
     {
         user = admin;
@@ -20,7 +16,6 @@
         user = customer;
     }
 }
-
 
 <div class="container mx-auto p-4 max-w-7xl">
 
@@ -36,10 +31,10 @@
                     My Accounts
                 </button>
             </div>
-            <p class="text-gray-600 text-sm">Total: 16 Beneficiaries</p>
+            <p class="text-gray-600 text-sm">Total: @Model.Count Beneficiaries</p>
         </div>
 
-        <form method="post" action="/YourController/YourAction">
+        <form method="post" asp-action="Transfer" asp-controller="Transaction">
             <div class="overflow-x-auto mt-4">
                 <table class="min-w-full bg-white text-sm">
                     <thead>
@@ -52,10 +47,12 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @for (int i = 0; i < 5; i++)
+                        @foreach (var beneficiary in Model)
                         {
                             <tr class="border-b">
-                                <td class="py-4 px-4"><input type="radio" name="selectedBeneficiary" value="beneficiary_@i" /></td>
+                                <td class="py-4 px-4">
+                                    <input type="radio" name="selectedBeneficiaryId" value="@beneficiary.Id" />
+                                </td>
                                 <td class="py-4 px-4">Jon</td>
                                 <td class="py-4 px-4">Doe</td>
                                 <td class="py-4 px-4">402-7262857-6</td>

@@ -1,4 +1,5 @@
 ﻿using BellBankingApp.Core.Application.DTOs.Account;
+using BellBankingApp.Core.Application.ViewModels.Login;
 using BellBankingApp.Core.Application.ViewModels.User;
 using System;
 using System.Collections.Generic;
@@ -11,8 +12,8 @@ namespace BellBankingApp.Core.Application.Interfaces.Services
     public interface ILoginService
     {
         Task<AuthenticationResponse> LoginAsync(LoginViewModel vm);
-        Task<RegisterResponse> RegisterAsync(SaveUserViewModel vm);
-        Task<UpdateResponse> UpdateAsync(SaveUserViewModel vm);
+        Task<RegisterResponse> RegisterAsync(RegisterViewModel vm);
+        Task<UpdateResponse> UpdateAsync(RegisterViewModel vm);
         Task SignOutAsync();
     }
 }

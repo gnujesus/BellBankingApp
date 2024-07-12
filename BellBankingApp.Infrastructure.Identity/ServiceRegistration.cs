@@ -50,6 +50,7 @@ namespace BellBankingApp.Infrastructure.Identity
 
             #region Services
             services.AddTransient<IAccountService, AccountService>();
+            services.AddTransient<IUserManagerService, UserManagerService>();
             #endregion
         }
     }

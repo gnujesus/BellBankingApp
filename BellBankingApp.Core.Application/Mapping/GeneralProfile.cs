@@ -4,12 +4,14 @@ using BellBankingApp.Core.Application.ViewModels.Beneficiary;
 using BellBankingApp.Core.Application.ViewModels.Product;
 using BellBankingApp.Core.Application.ViewModels.Transaction;
 using BellBankingApp.Core.Application.ViewModels.User;
+using BellBankingApp.Core.Application.ViewModels.Login;
 using BellBankingApp.Core.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BellBankingApp.Core.Application.DTOs.User;
 
 namespace BellBankingApp.Core.Application.Mapping
 {
@@ -17,19 +19,37 @@ namespace BellBankingApp.Core.Application.Mapping
     {
         public GeneralProfile()
         {
-            #region UserProfile
+            #region LoginProfile
             CreateMap<AuthenticationRequest, LoginViewModel>()
                 .ForMember(x => x.HasError, opt => opt.Ignore())
                 .ForMember(x => x.Error, opt => opt.Ignore())
                 .ReverseMap();
 
-            CreateMap<RegisterRequest, SaveUserViewModel>()
+            CreateMap<RegisterRequest, RegisterViewModel>()
                 .ForMember(x => x.HasError, opt => opt.Ignore())
                 .ForMember(x => x.Error, opt => opt.Ignore())
                 .ForMember(x => x.Id, opt => opt.Ignore())
                 .ReverseMap();
 
-            CreateMap<UpdateRequest, SaveUserViewModel>()
+            CreateMap<UpdateRequest, RegisterViewModel>()
+                .ForMember(x => x.HasError, opt => opt.Ignore())
+                .ForMember(x => x.Error, opt => opt.Ignore())
+                .ReverseMap();
+
+            #endregion
+
+            #region UserProfile
+            CreateMap<GetUserResponse, UserViewModel>()
+                .ForMember(x => x.HasError, opt => opt.Ignore())
+                .ForMember(x => x.Error, opt => opt.Ignore())
+                .ReverseMap();
+
+            CreateMap<CreateUserRequest, SaveUserViewModel>()
+                .ForMember(x => x.HasError, opt => opt.Ignore())
+                .ForMember(x => x.Error, opt => opt.Ignore())
+                .ReverseMap();
+
+            CreateMap<UpdateUserRequest, SaveUserViewModel>()
                 .ForMember(x => x.HasError, opt => opt.Ignore())
                 .ForMember(x => x.Error, opt => opt.Ignore())
                 .ReverseMap();

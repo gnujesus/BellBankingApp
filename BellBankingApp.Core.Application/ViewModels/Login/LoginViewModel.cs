@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BellBankingApp.Core.Application.ViewModels.User
+namespace BellBankingApp.Core.Application.ViewModels.Login
 {
     public class LoginViewModel
     {

@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace BellBankingApp.Core.Application.Services
 {
-    public class ProductService : GenericService<SaveProductViewModel, ProducViewModel, Product>, IProductService
+    public class ProductService : GenericService<SaveProductViewModel, ProductViewModel, Product>, IProductService
     {
         public ProductService(IProductRepository productRepository, IMapper mapper)
             : base(productRepository, mapper)

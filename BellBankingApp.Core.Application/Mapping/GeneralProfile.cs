@@ -56,9 +56,7 @@ namespace BellBankingApp.Core.Application.Mapping
 
             #endregion
             #region Product
-            CreateMap<Product, ProducViewModel>()
-                .ForMember(x => x.HasError, opt => opt.Ignore())
-                .ForMember(x => x.Error, opt => opt.Ignore())
+            CreateMap<Product, ProductViewModel>()
                 .ReverseMap();
 
             #endregion

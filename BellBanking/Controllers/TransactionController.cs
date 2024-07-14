@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using BellBankingApp.Core.Application.DTOs.Account;
-using BellBankingApp.Core.Application.Services;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using BellBankingApp.Core.Application.Interfaces.Services;
 using BellBankingApp.Core.Application.ViewModels.Beneficiary;
-using BellBankingApp.Core.Domain.Entities;
+using BellBankingApp.Core.Application.Services;
+using BellBankingApp.Core.Application.Enums;
+using BellBankingApp.Core.Application.Helpers;
+using Microsoft.AspNetCore.Http;
 
 namespace BellBankingApp.Web.Controllers
 {
@@ -15,25 +15,31 @@ namespace BellBankingApp.Web.Controllers
 
         private readonly IUserService _userService;
         private readonly IProductService _productService;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly ITransactionService _transactionService;
+        private readonly IBeneficiaryService _beneficiaryService;
 
-        public TransactionController(IUserService userService, IProductService productService)
+
+        public TransactionController(ITransactionService transactionService, IHttpContextAccessor httpContextAccessor, IUserService userService, IProductService productService, IBeneficiaryService beneficiaryService)
         {
             _userService = userService;
             _productService = productService;
+            _httpContextAccessor = httpContextAccessor;
+            _transactionService = transactionService;
+            _beneficiaryService = beneficiaryService;
         }
-
 
         public async Task<IActionResult> Index()
         {
-            var beneficiaries = new List<BeneficiaryViewModel>
-            {
-                new BeneficiaryViewModel { Id = 1, UserId = "1", ProductId = 1 },
-                new BeneficiaryViewModel { Id = 2, UserId = "2", ProductId = 2 },
-                // Add more beneficiaries as needed
-            };
+            var user = _httpContextAccessor.HttpContext.Session.Get<AuthenticationResponse>(Roles.Customer.ToString()) ??
+                       _httpContextAccessor.HttpContext.Session.Get<AuthenticationResponse>(Roles.Admin.ToString());
 
-            return View(beneficiaries);
+            var allBeneficiaries = await _beneficiaryService.GetAll();
+            var userBeneficiaries = allBeneficiaries
+                .Where(b => b.UserId == user.Id)
+                .ToList();
 
+            return View(userBeneficiaries);
         }
 
         [HttpPost]
@@ -66,9 +72,11 @@ namespace BellBankingApp.Web.Controllers
             return View();
         }
 
-        public IActionResult AllTransactionsHistory()
+        public async Task<IActionResult> AllTransactionsHistory()
         {
-            return View();
+            var allTransactions = await _transactionService.GetAll();
+            var sortedTransactions = allTransactions.OrderByDescending(t => t.DateCreated).ToList();
+            return View(sortedTransactions);
         }
 
     }

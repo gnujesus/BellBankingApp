@@ -1,1 +1,33 @@
-﻿
+﻿@model List<TransactionViewModel>
+
+<div class="container mx-auto p-4 max-w-7xl">
+    <h1 class="text-2xl font-bold mb-4">All Transactions History</h1>
+
+    <div class="overflow-x-auto">
+        <table class="min-w-full bg-white text-sm">
+            <thead>
+                <tr>
+                    <th class="py-3 px-4 text-left text-gray-600">Date</th>
+                    <th class="py-3 px-4 text-left text-gray-600">Amount</th>
+                    <th class="py-3 px-4 text-left text-gray-600">Origin Product ID</th>
+                    <th class="py-3 px-4 text-left text-gray-600">Destination Product ID</th>
+                    <th class="py-3 px-4 text-left text-gray-600">User ID</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var transaction in Model)
+                {
+                    <tr class="border-b">
+                        <td class="py-4 px-4">@transaction.DateCreated?.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                        <td class="py-4 px-4">@transaction.Amount</td>
+                        <td class="py-4 px-4">@transaction.OriginProductId</td>
+                        <td class="py-4 px-4">@transaction.DestinationProductId</td>
+                        <td class="py-4 px-4">@transaction.UserId</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>

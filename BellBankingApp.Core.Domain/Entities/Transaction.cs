@@ -12,6 +12,7 @@ namespace BellBankingApp.Core.Domain.Entities
         public decimal Amount { get; set; }
         public int OriginProductId { get; set; }
         public int DestinationProductId { get; set; }
+        public string UserId { get; set; }
 
         // Navigation properties
         public Product? OriginProduct { get; set; }

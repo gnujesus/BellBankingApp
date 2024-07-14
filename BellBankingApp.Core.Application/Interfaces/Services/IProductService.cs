@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BellBankingApp.Core.Application.Interfaces.Services
 {
-    public interface IProductService : IGenericService<SaveProductViewModel, ProducViewModel, Product>
+    public interface IProductService : IGenericService<SaveProductViewModel, ProductViewModel, Product>
     {
     }
 }

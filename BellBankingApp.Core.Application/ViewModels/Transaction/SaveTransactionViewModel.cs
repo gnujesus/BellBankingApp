@@ -11,6 +11,8 @@ namespace BellBankingApp.Core.Application.ViewModels.Transaction
 {
     public class SaveTransactionViewModel
     {
+        public DateTime? DateCreated { get; set; } = DateTime.Now;
+
         public int Id { get; set; }
 
         [Required(ErrorMessage = "You must enter the amount")]
@@ -20,6 +22,8 @@ namespace BellBankingApp.Core.Application.ViewModels.Transaction
 
         [Required(ErrorMessage = "You must enter the destination")]
         public int DestinationProductId { get; set; }
+
+        public string? UserId { get; set; }
 
         public List<ProductViewModel>? OriginProduct { get; set; }
         public List<ProductViewModel>? DestinationProduct { get; set; }

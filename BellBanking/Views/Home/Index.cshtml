@@ -1,12 +1,12 @@
-﻿@inject IHttpContextAccessor httpContextAccesor
+﻿@inject IHttpContextAccessor httpContextAccessor
 @{
     ViewData["Title"] = "Home Page";
 }
 
 @{
     AuthenticationResponse user = new();
-    var admin = httpContextAccesor.HttpContext.Session.Get<AuthenticationResponse>(Roles.Admin.ToString());
-    var customer = httpContextAccesor.HttpContext.Session.Get<AuthenticationResponse>(Roles.Customer.ToString());
+    var admin = httpContextAccessor.HttpContext.Session.Get<AuthenticationResponse>(Roles.Admin.ToString());
+    var customer = httpContextAccessor.HttpContext.Session.Get<AuthenticationResponse>(Roles.Customer.ToString());
     if (admin != null)
     {
         user = admin;
@@ -21,10 +21,9 @@
     <h1 class="text-2xl font-bold mb-2">Hello, @user.UserName</h1>
     <div class="grid grid-cols-3 gap-6 h-full">
         <!-- Left Column -->
-        <div class="border boder-gray-200 rounded-md col-span-2 flex flex-col space-y-6">
+        <div class="border border-gray-200 rounded-md col-span-2 flex flex-col space-y-6">
             <!-- Main Personal Account Section -->
             <div class="bg-white p-4 rounded-lg shadow-md flex flex-col justify-between h-full">
-
                 <div>
                     <h2 class="text-sm font-semibold text-blue-600">Main Personal Account</h2>
                     <div class="flex items-center space-x-4">
@@ -60,38 +59,17 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="border-b">
-                                <td class="py-6">2024-04-04</td>
-                                <td class="py-6">9608627533</td>
-                                <td class="py-6">9608627533</td>
-                                <td class="py-6">Pago para alquiler</td>
-                                <td class="py-6">Avance de Efectivo</td>
-                                <td class="py-6">RD$ 90,909.99</td>
-                            </tr>
-                            <tr class="border-b">
-                                <td class="py-6">2024-03-28</td>
-                                <td class="py-6">9608627533</td>
-                                <td class="py-6">8765432109</td>
-                                <td class="py-6">Compra en Supermercado</td>
-                                <td class="py-6">Compra</td>
-                                <td class="py-6">RD$ 5,000.00</td>
-                            </tr>
-                            <tr class="border-b">
-                                <td class="py-6">2024-03-15</td>
-                                <td class="py-6">9608627533</td>
-                                <td class="py-6">8765432110</td>
-                                <td class="py-6">Pago de Servicios</td>
-                                <td class="py-6">Servicio</td>
-                                <td class="py-6">RD$ 2,000.00</td>
-                            </tr>
-                            <tr class="border-b">
-                                <td class="py-6">2024-03-01</td>
-                                <td class="py-6">9608627533</td>
-                                <td class="py-6">9608627534</td>
-                                <td class="py-6">Transferencia a Cuenta</td>
-                                <td class="py-6">Transferencia</td>
-                                <td class="py-6">RD$ 8,000.00</td>
-                            </tr>
+                            @foreach (var transaction in ViewBag.UserTransactions)
+                            {
+                                <tr class="border-b">
+                                    <td class="py-6">@transaction.DateCreated</td>
+                                    <td class="py-6">@transaction.OriginProductId</td>
+                                    <td class="py-6">@transaction.DestinationProductId</td>
+                                    <td class="py-6">@transaction.Details</td>
+                                    <td class="py-6">@transaction.Category</td>
+                                    <td class="py-6">@transaction.Amount</td>
+                                </tr>
+                            }
                         </tbody>
                     </table>
                 </div>
@@ -101,7 +79,7 @@
         <!-- Right Column -->
         <div class="col-span-1 flex flex-col space-y-6">
             <!-- My Products Section -->
-            <div class="border boder-gray-200 rounded-md bg-white p-4 rounded-lg shadow-md flex-grow">
+            <div class="border border-gray-200 rounded-md bg-white p-4 rounded-lg shadow-md flex-grow">
                 <div class="flex justify-between items-center mb-4">
                     <h2 class="text-xl font-semibold">My Products</h2>
                     <button class="flex font-medium items-center text-black text-base">
@@ -133,29 +111,51 @@
                 </div>
             </div>
 
-            <!-- Offer Section -->
-            <div class="flex flex-col shadow-md space-y-2 mb-6">
-                <button class="shadow-md border border-gray-200 bg-white text-black px-4 py-3 rounded-md flex justify-between items-center text-sm">
-                    <span>Product Details</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" class="ml-2 h-4 w-4" viewBox="0 0 448 512">
-                        <path fill="currentColor" d="M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z" />
-                    </svg>
-                </button>
-                <button class="shadow-md border border-gray-200 bg-white text-black px-4 py-3 rounded-md flex justify-between items-center text-sm">
-                    <span>Card Number</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" class="ml-2 h-4 w-4" viewBox="0 0 448 512">
-                        <path fill="currentColor" d="M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z" />
-                    </svg>
-                </button>
-            </div>
-            <div class="bg-gray-200 rounded-lg shadow-md relative h-48 flex-grow">
-                <div class="absolute inset-0 bg-cover bg-center rounded-lg" style="background-image: url('/static/images/offer-image.jpg');"></div>
-                <div class="absolute top-0 left-0 m-4 px-2 py-1 bg-black bg-opacity-50 rounded text-xs"><span class="text-white">Limited Offer</span></div>
-                <div class="absolute inset-0 bg-black bg-opacity-50 flex flex-col justify-end p-4 rounded-lg">
-                    <h3 class="text-xl font-semibold text-white">Deposit 4,5%</h3>
-                    <button class="bg-white text-black px-4 py-1 rounded-md mt-2 text-sm w-1/2">Show Details</button>
+            <!-- Conditional Offer or Admin Buttons Section -->
+            @if (user.Role == Roles.Customer.ToString())
+            {
+                <div class="bg-gray-200 rounded-lg shadow-md relative h-48 flex-grow">
+                    <div class="absolute inset-0 bg-cover bg-center rounded-lg" style="background-image: url('/static/images/offer-image.jpg');"></div>
+                    <div class="absolute top-0 left-0 m-4 px-2 py-1 bg-black bg-opacity-50 rounded text-xs"><span class="text-white">Limited Offer</span></div>
+                    <div class="absolute inset-0 bg-black bg-opacity-50 flex flex-col justify-end p-4 rounded-lg">
+                        <h3 class="text-xl font-semibold text-white">Deposit 4,5%</h3>
+                        <button class="bg-white text-black px-4 py-1 rounded-md mt-2 text-sm w-1/2">Show Details</button>
+                    </div>
                 </div>
-            </div>
+            }
+            else if (user.Role == Roles.Admin.ToString())
+            {
+                <div class="grid grid-cols-2 gap-4">
+                    <a href="#" class="bg-white border border-gray-200 shadow-md rounded-md text-gray-800 flex flex-col items-center justify-center p-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" />
+                            <path d="M0 0h24v24H0z" fill="none" />
+                        </svg>
+                        <span class="mt-2">Users</span>
+                    </a>
+                    <a href="#" class="bg-white border border-gray-200 shadow-md rounded-md text-gray-800 flex flex-col items-center justify-center p-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" />
+                            <path d="M0 0h24v24H0z" fill="none" />
+                        </svg>
+                        <span class="mt-2">Payments</span>
+                    </a>
+                    <a href="#" class="bg-white border border-gray-200 shadow-md rounded-md text-gray-800 flex flex-col items-center justify-center p-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" />
+                            <path d="M0 0h24v24H0z" fill="none" />
+                        </svg>
+                        <span class="mt-2">Products</span>
+                    </a>
+                    <a asp-controller="Transaction" asp-action="AllTransactionsHistory" class="bg-white border border-gray-200 shadow-md rounded-md text-gray-800 flex flex-col items-center justify-center p-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" />
+                            <path d="M0 0h24v24H0z" fill="none" />
+                        </svg>
+                        <span class="mt-2">System Transactions</span>
+                    </a>
+                </div>
+            }
         </div>
     </div>
 </div>

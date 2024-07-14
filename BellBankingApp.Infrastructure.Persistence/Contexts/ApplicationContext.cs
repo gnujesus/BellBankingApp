@@ -72,7 +72,8 @@ namespace BellBankingApp.Infrastructure.Persistence.Contexts
             modelBuilder.Entity<Beneficiary>()
                 .HasOne(b => b.Product)
                 .WithMany(p => p.Beneficiaries)
-                .HasForeignKey(b => b.ProductId);
+                .HasForeignKey(b => b.ProductId)
+                .OnDelete(DeleteBehavior.NoAction);
 
             // Beneficiary - User
             //modelBuilder.Entity<Beneficiary>()
@@ -85,14 +86,14 @@ namespace BellBankingApp.Infrastructure.Persistence.Contexts
                 .HasOne(t => t.OriginProduct)
                 .WithMany()
                 .HasForeignKey(t => t.OriginProductId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.NoAction);
 
             // Transaction - DestinationProduct
             modelBuilder.Entity<Transaction>()
                 .HasOne(t => t.DestinationProduct)
                 .WithMany()
                 .HasForeignKey(t => t.DestinationProductId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.NoAction);
             #endregion
 
             #region
@@ -114,9 +115,11 @@ namespace BellBankingApp.Infrastructure.Persistence.Contexts
             #endregion
 
             #region transactions
-            modelBuilder.Entity<Transaction>().
-                Property(transaction => transaction.Amount)
-                .IsRequired();
+            //modelBuilder.Entity<Transaction>().
+              //  Property(transaction => transaction.Amount)
+                //.IsRequired();
+
+
             #endregion
             #endregion
         }

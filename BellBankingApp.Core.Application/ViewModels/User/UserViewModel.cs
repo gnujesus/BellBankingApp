@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BellBankingApp.Core.Application.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -17,6 +18,7 @@ namespace BellBankingApp.Core.Application.ViewModels.User
         public string Password { get; set; }
         public string NationalId { get; set; }
         public bool IsActive { get; set; }
+        public Roles Rol { get; set; }
         public bool IsAdmin { get; set; }
         public bool HasError { get; set; }
         public string? Error { get; set; }

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BellBankingApp.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20240707200816_Initial_Migration")]
+    [Migration("20240714155115_Initial_Migration")]
     partial class Initial_Migration
     {
         /// <inheritdoc />
@@ -32,6 +32,10 @@ namespace BellBankingApp.Infrastructure.Persistence.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("BeneficiaryUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
@@ -126,6 +130,10 @@ namespace BellBankingApp.Infrastructure.Persistence.Migrations
                     b.Property<string>("UpdatedBy")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("DestinationProductId");
@@ -140,7 +148,7 @@ namespace BellBankingApp.Infrastructure.Persistence.Migrations
                     b.HasOne("BellBankingApp.Core.Domain.Entities.Product", "Product")
                         .WithMany("Beneficiaries")
                         .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Product");
@@ -151,13 +159,13 @@ namespace BellBankingApp.Infrastructure.Persistence.Migrations
                     b.HasOne("BellBankingApp.Core.Domain.Entities.Product", "DestinationProduct")
                         .WithMany()
                         .HasForeignKey("DestinationProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("BellBankingApp.Core.Domain.Entities.Product", "OriginProduct")
                         .WithMany()
                         .HasForeignKey("OriginProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("DestinationProduct");

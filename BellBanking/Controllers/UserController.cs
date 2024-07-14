@@ -1,5 +1,6 @@
 ﻿using BellBankingApp.Core.Application.DTOs.Account;
 using BellBankingApp.Core.Application.DTOs.User;
+using BellBankingApp.Core.Application.Enums;
 using BellBankingApp.Core.Application.Interfaces.Services;
 using BellBankingApp.Core.Application.ViewModels.User;
 using Microsoft.AspNetCore.Http;
@@ -54,7 +55,7 @@ namespace WebApp.BellBankingApp.Controllers
                 return View(saveUserViewModel);
             }
 
-            if (!saveUserViewModel.IsAdmin)
+            if (saveUserViewModel.Rol == Roles.Customer)
             {
                 return RedirectToRoute(new { controller = "Product", action = "Create", userId=saveUserViewModel.Id });
             }

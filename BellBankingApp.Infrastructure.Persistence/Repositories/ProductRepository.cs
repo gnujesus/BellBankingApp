@@ -18,6 +18,9 @@ namespace BellBankingApp.Infrastructure.Persistence.Repositories
             _dbContext = dbContext;
         }
 
-
+        public bool Exist(Func<Product, bool> filter)
+        {
+            return _dbContext.Set<Product>().Any(filter);
+        }
     }
 }

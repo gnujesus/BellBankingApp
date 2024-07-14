@@ -14,8 +14,12 @@ namespace BellBankingApp.Core.Application.ViewModels.Beneficiary
 
         [Range(1, int.MaxValue, ErrorMessage = "You must enter the type of the product")]
         public int ProductId { get; set; }
+        [Required(ErrorMessage = "You must enter an Account number")]
+        public string AccountNumber { get; set; }
 
         public List<ProductViewModel>? Products { get; set; }
         public string? UserId { get; set; }
+        public bool HasError { get; set; }
+        public string? Error { get; set; }
     }
 }

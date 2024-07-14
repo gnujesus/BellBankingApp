@@ -1,0 +1,67 @@
+﻿@model List<UserViewModel>
+
+<div class="container mx-auto p-4 max-w-7xl">
+    <div class="flex justify-between mb-4">
+        <div>
+            <button class="underline underline-offset-8">All Users</button>
+            <button class="text-gray-700">Administrators</button>
+            <button class="text-gray-700">Customers</button>
+        </div>
+        <p class="text-gray-600 text-sm">Total: @Model.Count Users</p>
+    </div>
+    
+    <div class="w-full border-t border-gray-200 mt-2"></div>
+    
+    <div class="mt-4 overflow-x-auto">
+        <table class="min-w-full bg-white text-sm">
+            <thead>
+                <tr>
+                    <th class="py-3 px-4 text-left text-gray-600">First Name</th>
+                    <th class="py-3 px-4 text-left text-gray-600">Last Name</th>
+                    <th class="py-3 px-4 text-left text-gray-600">DNI</th>
+                    <th class="py-3 px-4 text-left text-gray-600">User Type</th>
+                    <th class="py-3 px-4 text-left text-gray-600">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var user in Model)
+                {
+                    <tr class="border-b">
+                        <td class="py-4 px-4">@user.FirstName</td>
+                        <td class="py-4 px-4">@user.LastName</td>
+                        <td class="py-4 px-4">@user.NationalId</td>
+                        <td class="py-4 px-4">Some Role</td>
+                        <td class="py-4 px-4">
+                            <form method="post" asp-action="ChangeStatus" asp-controller="User">
+                                <input type="hidden" name="userId" value="@user.Id" />
+                                <input type="hidden" name="currentStatus" value="@(user.IsActive ? "Active" : "Inactive") " />
+                                <button type="submit" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-sm font-medium">
+                                    @if (user.IsActive)
+                                    {
+                                        <button class="bg-green-100 text-green-800">
+                                            "Active"
+                                        </button>
+                                    }
+                                    else
+                                    {
+                                        <button class="bg-red-100 text-red-800">
+                                            "Inactive"
+                                        </button>
+                                    }
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    
+    <div class="flex justify-end mt-4">
+        <a href="/User/Add" class="bg-blue-600 text-white px-4 py-2 rounded-md text-sm flex items-center">
+            Add New User <i class="fas fa-plus ml-2"></i>
+        </a>
+    </div>
+</div>
+
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>

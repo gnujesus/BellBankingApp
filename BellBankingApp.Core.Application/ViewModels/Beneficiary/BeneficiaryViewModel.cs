@@ -20,3 +20,4 @@ namespace BellBankingApp.Core.Application.ViewModels.Beneficiary
         public string? Error { get; set; }
     }
 }
+

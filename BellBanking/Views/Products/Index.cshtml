@@ -1,0 +1,42 @@
+﻿@model List<ProductViewModel>
+
+<div class="container mx-auto p-4 max-w-7xl">
+    <div class="flex justify-between mb-4">
+        <div>
+            <button class="underline underline-offset-8">All Products</button>
+        </div>
+        <p class="text-gray-600 text-sm">Total: @Model.Count Products</p>
+    </div>
+
+    <div class="w-full border-t border-gray-200 mt-2"></div>
+
+    <div class="mt-4 overflow-x-auto">
+        <table class="min-w-full bg-white text-sm">
+            <thead>
+                <tr>
+                    <th class="py-3 px-4 text-left text-gray-600">Account Number</th>
+                    <th class="py-3 px-4 text-left text-gray-600">User ID</th>
+                    <th class="py-3 px-4 text-left text-gray-600">Type</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var product in Model)
+                {
+                    <tr class="border-b">
+                        <td class="py-4 px-4">@product.AccountNumber</td>
+                        <td class="py-4 px-4">@product.UserId</td>
+                        <td class="py-4 px-4">@product.Type</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="flex justify-end mt-4">
+        <a href="/Product/Add" class="bg-blue-600 text-white px-4 py-2 rounded-md text-sm flex items-center">
+            Add New Product <i class="fas fa-plus ml-2"></i>
+        </a>
+    </div>
+</div>
+
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>

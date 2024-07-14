@@ -16,3 +16,4 @@ namespace BellBankingApp.Core.Application.ViewModels.Beneficiary
         public ProductViewModel? Products { get; set; }
     }
 }
+

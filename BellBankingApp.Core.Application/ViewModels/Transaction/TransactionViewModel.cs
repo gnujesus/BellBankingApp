@@ -1,3 +1,4 @@
+
 ﻿using BellBankingApp.Core.Application.ViewModels.Product;
 using System;
 using System.Collections.Generic;
@@ -18,3 +19,4 @@ namespace BellBankingApp.Core.Application.ViewModels.Transaction
         public ProductViewModel? DestinationProduct { get; set; }
     }
 }
+

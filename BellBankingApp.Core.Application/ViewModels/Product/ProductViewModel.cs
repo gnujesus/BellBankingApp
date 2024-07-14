@@ -1,3 +1,4 @@
+
 ﻿using BellBankingApp.Core.Application.ViewModels.Beneficiary;
 using System;
 using System.Collections.Generic;
@@ -17,3 +18,4 @@ namespace BellBankingApp.Core.Application.ViewModels.Product
         public List<BeneficiaryViewModel>? Beneficiaries { get; set; }
     }
 }
+

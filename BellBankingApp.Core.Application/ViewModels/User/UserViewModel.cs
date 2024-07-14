@@ -16,7 +16,7 @@ namespace BellBankingApp.Core.Application.ViewModels.User
         public string Username { get; set; }
         public string Password { get; set; }
         public string NationalId { get; set; }
-        public bool? IsActive { get; set; }
+        public bool IsActive { get; set; }
         public bool IsAdmin { get; set; }
         public bool HasError { get; set; }
         public string? Error { get; set; }

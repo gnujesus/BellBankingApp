@@ -60,11 +60,7 @@ namespace BellBankingApp.Infrastructure.Identity.Services
 
             }
 
-            if (userRequest.IsAdmin)
-                await _userManager.AddToRoleAsync(user, Roles.Admin.ToString());
-            if (!userRequest.IsAdmin)
-                await _userManager.AddToRoleAsync(user, Roles.Customer.ToString());
-
+            await _userManager.AddToRoleAsync(user, userRequest.Rol.ToString());
 
             return response;
         }
@@ -102,7 +98,17 @@ namespace BellBankingApp.Infrastructure.Identity.Services
 
             allUsers.users = _mapper.Map<List<GetUserResponse>>(userlist);
 
-            allUsers.users.Select(user => user.Rol = user.IsActive ? "admin" : "Customer");
+            allUsers.users = userlist.Select(user => new GetUserResponse() 
+            {
+                Id = user.Id,
+                IsActive = user.IsActive,
+                Email = user.Email,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                NationalId = user.NationalId,
+                UserName = user.UserName
+            }).ToList();
+
 
             return allUsers;
         }
@@ -120,9 +126,20 @@ namespace BellBankingApp.Infrastructure.Identity.Services
                 return getUser;
             }
 
-            getUser = _mapper.Map<GetUserResponse>(user);
+            //getUser = _mapper.Map<GetUserResponse>(user);
 
-            IList<string> roles = await _userManager.GetRolesAsync(user);
+            getUser = new()
+            {
+                Id = user.Id,
+                IsActive = user.IsActive,
+                Email = user.Email,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                NationalId = user.NationalId,
+                UserName = user.UserName
+            };
+
+            IList<string> roles = await _userManager.GetRolesAsync(user).ConfigureAwait(false);
             getUser.Rol = roles.First();
 
             return getUser;

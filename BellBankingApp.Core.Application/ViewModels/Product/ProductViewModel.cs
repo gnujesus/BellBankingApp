@@ -14,6 +14,8 @@ namespace BellBankingApp.Core.Application.ViewModels.Product
         public string? AccountNumber { get; set; }
         public string? UserId { get; set; }
         public string? Type { get; set; }
+        public bool HasError { get; set; }
+        public string? Error { get; set; }
 
         public List<BeneficiaryViewModel>? Beneficiaries { get; set; }
     }

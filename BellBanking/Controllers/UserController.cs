@@ -1,5 +1,6 @@
 ﻿using BellBankingApp.Core.Application.DTOs.Account;
 using BellBankingApp.Core.Application.DTOs.User;
+using BellBankingApp.Core.Application.Enums;
 using BellBankingApp.Core.Application.Interfaces.Services;
 using BellBankingApp.Core.Application.ViewModels.User;
 using Microsoft.AspNetCore.Http;
@@ -23,13 +24,14 @@ namespace WebApp.BellBankingApp.Controllers
         }
 
         // GET: UserController/Details/5
-        public ActionResult Details(int id)
+        public async Task<IActionResult> Details(string id)
         {
-            return View();
+            var user = await _userService.GetById(id);
+            return View(user);
         }
 
         // GET: UserController/Create
-        public ActionResult Create()
+        public IActionResult Create()
         {
             SaveUserViewModel saveUser = new();
             return View(saveUser);
@@ -53,53 +55,54 @@ namespace WebApp.BellBankingApp.Controllers
                 return View(saveUserViewModel);
             }
 
-            if (!saveUserViewModel.IsAdmin)
+            if (saveUserViewModel.Rol == Roles.Customer)
             {
-                return RedirectToRoute(new { controller = "Product", action = "Create" });
+                return RedirectToRoute(new { controller = "Product", action = "Create", userId=saveUserViewModel.Id });
             }
             return RedirectToRoute(new { controller = "User", action = "Index" });
         }
 
         // GET: UserController/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<IActionResult> Edit(string id)
         {
-            return View();
+            var user = await _userService.GetById(id);
+            return View(user);
         }
 
         // POST: UserController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<IActionResult> Edit(SaveUserViewModel saveUserViewModel)
         {
-            try
+            if (!ModelState.IsValid)
             {
-                return RedirectToAction(nameof(Index));
+                return View(saveUserViewModel);
             }
-            catch
+
+            UpdateUserResponse response = await _userService.UpdateUser(saveUserViewModel);
+            if (response.HasError)
             {
-                return View();
+                saveUserViewModel.HasError = response.HasError;
+                saveUserViewModel.Error = response.Error;
+                return View(saveUserViewModel);
             }
+            return RedirectToRoute(new { controller = "User", action = "Index" });
         }
 
         // GET: UserController/Delete/5
-        public ActionResult Delete(int id)
+        public async Task<IActionResult> Delete(string id)
         {
-            return View();
+            var user = await _userService.GetById(id);
+            return View(user);
         }
 
         // POST: UserController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<IActionResult> DeletePost(string id)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            await _userService.DeleteUser(id);
+            return RedirectToRoute(new { controller = "User", action = "Index" });
         }
     }
 }

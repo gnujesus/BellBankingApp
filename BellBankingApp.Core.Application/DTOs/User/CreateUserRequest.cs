@@ -1,4 +1,5 @@
 ﻿using BellBankingApp.Core.Application.DTOs.Commons;
+using BellBankingApp.Core.Application.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +17,8 @@ namespace BellBankingApp.Core.Application.DTOs.User
         public string Password { get; set; }
         public string ConfirmPassword { get; set; }
         public bool IsActive { get; set; }
-        public bool IsAdmin { get; set; }
+        //public bool IsAdmin { get; set; }
+        public Roles Rol { get; set; }
         public string NationalId { get; set; }
     }
 }

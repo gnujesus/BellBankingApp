@@ -9,5 +9,6 @@ namespace BellBankingApp.Core.Application.Interfaces.Repositories
 {
     public interface IProductRepository : IGenericRepository<Product>
     {
+        bool Exist(Func<Product, bool> filter);
     }
 }

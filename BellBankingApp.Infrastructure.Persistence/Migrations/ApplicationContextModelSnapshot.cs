@@ -30,6 +30,10 @@ namespace BellBankingApp.Infrastructure.Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("BeneficiaryUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
@@ -123,6 +127,10 @@ namespace BellBankingApp.Infrastructure.Persistence.Migrations
                     b.Property<string>("UpdatedBy")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("DestinationProductId");
@@ -137,7 +145,7 @@ namespace BellBankingApp.Infrastructure.Persistence.Migrations
                     b.HasOne("BellBankingApp.Core.Domain.Entities.Product", "Product")
                         .WithMany("Beneficiaries")
                         .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Product");
@@ -148,13 +156,13 @@ namespace BellBankingApp.Infrastructure.Persistence.Migrations
                     b.HasOne("BellBankingApp.Core.Domain.Entities.Product", "DestinationProduct")
                         .WithMany()
                         .HasForeignKey("DestinationProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("BellBankingApp.Core.Domain.Entities.Product", "OriginProduct")
                         .WithMany()
                         .HasForeignKey("OriginProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("DestinationProduct");

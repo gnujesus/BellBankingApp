@@ -1,0 +1,48 @@
+﻿@model SaveProductViewModel
+
+@inject IUserService _userService
+
+@{
+    var users = await _userService.GetAll();
+}
+
+<div class="container mx-auto p-4 max-w-7xl">
+    <h1 class="text-2xl font-bold mb-4">Create New Product</h1>
+
+    <div class="bg-white p-6 rounded-lg shadow-md">
+        <form asp-action="Create" method="post">
+            <div class="mb-4">
+                <label for="userId" class="block text-gray-700">User</label>
+                <select id="userId" name="UserId" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm">
+                    @foreach (var user in users)
+                    {
+                        <option value="@user.Id">@user.Username</option>
+                    }
+                </select>
+            </div>
+
+            <div class="mb-4">
+                <label for="accountNumber" class="block text-gray-700">Account Number</label>
+                <input type="text" id="accountNumber" name="AccountNumber" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm" required />
+            </div>
+
+            <div class="mb-4">
+                <label for="type" class="block text-gray-700">Type</label>
+                <select id="type" name="Type" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm">
+                    @foreach (var type in Enum.GetValues(typeof(ProductType)))
+                    {
+                        <option value="@type">@type</option>
+                    }
+                </select>
+            </div>
+
+            <div class="flex justify-end">
+                <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-md text-sm">
+                    Create Product
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>

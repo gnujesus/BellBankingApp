@@ -6,6 +6,7 @@ using BellBankingApp.Core.Application.Enums;
 using BellBankingApp.Core.Application.Interfaces.Services;
 using BellBankingApp.Infrastructure.Identity.Entities;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -94,11 +95,11 @@ namespace BellBankingApp.Infrastructure.Identity.Services
         {
             GetAllUserResponse allUsers = new();
 
-            var userlist = _userManager.Users.ToList();
+            var userlist = await _userManager.Users.ToListAsync();
 
-            allUsers.users = _mapper.Map<List<GetUserResponse>>(userlist);
+            //allUsers.users = _mapper.Map<List<GetUserResponse>>(userlist);
 
-            allUsers.users = userlist.Select(user => new GetUserResponse() 
+            allUsers.users = userlist.Select(user => new GetUserResponse()
             {
                 Id = user.Id,
                 IsActive = user.IsActive,
@@ -106,9 +107,10 @@ namespace BellBankingApp.Infrastructure.Identity.Services
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 NationalId = user.NationalId,
-                UserName = user.UserName
+                UserName = user.UserName,
+                Rol = "TBD"
+                
             }).ToList();
-
 
             return allUsers;
         }
@@ -158,7 +160,18 @@ namespace BellBankingApp.Infrastructure.Identity.Services
                 return getUser;
             }
 
-            getUser = _mapper.Map<GetUserResponse>(user);
+            //getUser = _mapper.Map<GetUserResponse>(user);
+
+            getUser = new()
+            {
+                Id = user.Id,
+                IsActive = user.IsActive,
+                Email = user.Email,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                NationalId = user.NationalId,
+                UserName = user.UserName
+            };
 
             IList<string> roles = await _userManager.GetRolesAsync(user);
             getUser.Rol = roles.First();
@@ -182,6 +195,12 @@ namespace BellBankingApp.Infrastructure.Identity.Services
             }
 
             return userDeleteResponse;
+        }
+
+        private async Task<string> GetUserRole(ApplicationUser user) 
+        {
+            IList<string> roles = await _userManager.GetRolesAsync(user);
+            return roles.First();
         }
     }
 }

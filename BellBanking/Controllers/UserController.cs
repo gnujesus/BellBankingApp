@@ -47,6 +47,8 @@ namespace WebApp.BellBankingApp.Controllers
                 return View(saveUserViewModel);
             }
 
+            saveUserViewModel.IsActive = true;
+
             CreateUserResponse response = await _userService.CreateUser(saveUserViewModel);
             if (response.HasError)
             {

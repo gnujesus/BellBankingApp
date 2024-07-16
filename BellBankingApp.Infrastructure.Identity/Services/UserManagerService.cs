@@ -6,6 +6,7 @@ using BellBankingApp.Core.Application.Enums;
 using BellBankingApp.Core.Application.Interfaces.Services;
 using BellBankingApp.Infrastructure.Identity.Entities;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -49,7 +50,15 @@ namespace BellBankingApp.Infrastructure.Identity.Services
                 return response;
             }
 
-            var user = _mapper.Map<ApplicationUser>(userRequest);
+            var user = new ApplicationUser() 
+            {
+                UserName = userRequest.UserName,
+                IsActive = userRequest.IsActive,
+                Email = userRequest.Email,
+                FirstName = userRequest.FirstName,
+                LastName = userRequest.LastName,
+                NationalId = userRequest.NationalId,
+            };
 
             var result = await _userManager.CreateAsync(user, userRequest.Password);
             if (!result.Succeeded)
@@ -94,11 +103,10 @@ namespace BellBankingApp.Infrastructure.Identity.Services
         {
             GetAllUserResponse allUsers = new();
 
-            var userlist = _userManager.Users.ToList();
 
-            allUsers.users = _mapper.Map<List<GetUserResponse>>(userlist);
+            var userlist = await _userManager.Users.ToListAsync();
 
-            allUsers.users = userlist.Select(user => new GetUserResponse() 
+            allUsers.users = userlist.Select(user => new GetUserResponse()
             {
                 Id = user.Id,
                 IsActive = user.IsActive,
@@ -106,9 +114,10 @@ namespace BellBankingApp.Infrastructure.Identity.Services
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 NationalId = user.NationalId,
-                UserName = user.UserName
+                UserName = user.UserName,
+                Rol = Roles.Customer.ToString()
+                
             }).ToList();
-
 
             return allUsers;
         }
@@ -125,8 +134,6 @@ namespace BellBankingApp.Infrastructure.Identity.Services
                 getUser.Error = "No user found with this Id";
                 return getUser;
             }
-
-            //getUser = _mapper.Map<GetUserResponse>(user);
 
             getUser = new()
             {
@@ -158,7 +165,16 @@ namespace BellBankingApp.Infrastructure.Identity.Services
                 return getUser;
             }
 
-            getUser = _mapper.Map<GetUserResponse>(user);
+            getUser = new()
+            {
+                Id = user.Id,
+                IsActive = user.IsActive,
+                Email = user.Email,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                NationalId = user.NationalId,
+                UserName = user.UserName
+            };
 
             IList<string> roles = await _userManager.GetRolesAsync(user);
             getUser.Rol = roles.First();
@@ -170,7 +186,15 @@ namespace BellBankingApp.Infrastructure.Identity.Services
         {
             UpdateUserResponse userDeleteResponse = new();
 
-            var userToUpdate = _mapper.Map<ApplicationUser>(userRequest);
+            var userToUpdate = new ApplicationUser()
+            {
+                UserName = userRequest.UserName,
+                IsActive = userRequest.IsActive,
+                Email = userRequest.Email,
+                FirstName = userRequest.FirstName,
+                LastName = userRequest.LastName,
+                NationalId = userRequest.NationalId,
+            };
 
             var result = await _userManager.UpdateAsync(userToUpdate);
 
@@ -182,6 +206,12 @@ namespace BellBankingApp.Infrastructure.Identity.Services
             }
 
             return userDeleteResponse;
+        }
+
+        private async Task<string> GetUserRole(ApplicationUser user) 
+        {
+            IList<string> roles = await _userManager.GetRolesAsync(user);
+            return roles.First();
         }
     }
 }

@@ -9,9 +9,9 @@
         </div>
         <p class="text-gray-600 text-sm">Total: @Model.Count Users</p>
     </div>
-    
+
     <div class="w-full border-t border-gray-200 mt-2"></div>
-    
+
     <div class="mt-4 overflow-x-auto">
         <table class="min-w-full bg-white text-sm">
             <thead>
@@ -21,6 +21,7 @@
                     <th class="py-3 px-4 text-left text-gray-600">DNI</th>
                     <th class="py-3 px-4 text-left text-gray-600">User Type</th>
                     <th class="py-3 px-4 text-left text-gray-600">Status</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -30,38 +31,36 @@
                         <td class="py-4 px-4">@user.FirstName</td>
                         <td class="py-4 px-4">@user.LastName</td>
                         <td class="py-4 px-4">@user.NationalId</td>
-                        <td class="py-4 px-4">Some Role</td>
+                        <td class="py-4 px-4">@user.Rol</td>
                         <td class="py-4 px-4">
                             <form method="post" asp-action="ChangeStatus" asp-controller="User">
                                 <input type="hidden" name="userId" value="@user.Id" />
-                                <input type="hidden" name="currentStatus" value="@(user.IsActive ? "Active" : "Inactive") " />
-                                <button type="submit" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-sm font-medium">
-                                    @if (user.IsActive)
-                                    {
-                                        <button class="bg-green-100 text-green-800">
-                                            "Active"
-                                        </button>
-                                    }
-                                    else
-                                    {
-                                        <button class="bg-red-100 text-red-800">
-                                            "Inactive"
-                                        </button>
-                                    }
-                                </button>
+                                @if (user.IsActive)
+                                {
+                                    <button type="submit" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-sm font-medium bg-green-100 text-green-800">
+                                        Active
+                                    </button>
+                                }
+                                else
+                                {
+                                    <button type="submit" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-sm font-medium bg-red-100 text-red-800">
+                                        Inactive
+                                    </button>
+                                }
                             </form>
+                        </td>
+                        <td>
+                            <a asp-action="index" asp-controller="Product" asp-all-route-data="@(new Dictionary<string, string>{{"userId", user.Id}})" class="border border-blue-600 text-blue-600 px-4 py-2 rounded-md bg-transparent text-sm">Products</a>
                         </td>
                     </tr>
                 }
             </tbody>
         </table>
     </div>
-    
-    <div class="flex justify-end mt-4">
-        <a href="/User/Add" class="bg-blue-600 text-white px-4 py-2 rounded-md text-sm flex items-center">
-            Add New User <i class="fas fa-plus ml-2"></i>
-        </a>
-    </div>
 </div>
+
+<a asp-controller="User" asp-action="Create" class="fixed bottom-4 right-4 bg-blue-600 text-white px-4 py-2 rounded-md text-sm flex items-center shadow-md">
+    Create New User<i class="fas fa-plus ml-2"></i>
+</a>
 
 <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>

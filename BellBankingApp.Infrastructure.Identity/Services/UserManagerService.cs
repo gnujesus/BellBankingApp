@@ -50,7 +50,15 @@ namespace BellBankingApp.Infrastructure.Identity.Services
                 return response;
             }
 
-            var user = _mapper.Map<ApplicationUser>(userRequest);
+            var user = new ApplicationUser() 
+            {
+                UserName = userRequest.UserName,
+                IsActive = userRequest.IsActive,
+                Email = userRequest.Email,
+                FirstName = userRequest.FirstName,
+                LastName = userRequest.LastName,
+                NationalId = userRequest.NationalId,
+            };
 
             var result = await _userManager.CreateAsync(user, userRequest.Password);
             if (!result.Succeeded)
@@ -97,8 +105,6 @@ namespace BellBankingApp.Infrastructure.Identity.Services
 
             var userlist = await _userManager.Users.ToListAsync();
 
-            //allUsers.users = _mapper.Map<List<GetUserResponse>>(userlist);
-
             allUsers.users = userlist.Select(user => new GetUserResponse()
             {
                 Id = user.Id,
@@ -108,7 +114,7 @@ namespace BellBankingApp.Infrastructure.Identity.Services
                 LastName = user.LastName,
                 NationalId = user.NationalId,
                 UserName = user.UserName,
-                Rol = "TBD"
+                Rol = Roles.Customer.ToString()
                 
             }).ToList();
 
@@ -127,8 +133,6 @@ namespace BellBankingApp.Infrastructure.Identity.Services
                 getUser.Error = "No user found with this Id";
                 return getUser;
             }
-
-            //getUser = _mapper.Map<GetUserResponse>(user);
 
             getUser = new()
             {
@@ -160,8 +164,6 @@ namespace BellBankingApp.Infrastructure.Identity.Services
                 return getUser;
             }
 
-            //getUser = _mapper.Map<GetUserResponse>(user);
-
             getUser = new()
             {
                 Id = user.Id,
@@ -183,7 +185,15 @@ namespace BellBankingApp.Infrastructure.Identity.Services
         {
             UpdateUserResponse userDeleteResponse = new();
 
-            var userToUpdate = _mapper.Map<ApplicationUser>(userRequest);
+            var userToUpdate = new ApplicationUser()
+            {
+                UserName = userRequest.UserName,
+                IsActive = userRequest.IsActive,
+                Email = userRequest.Email,
+                FirstName = userRequest.FirstName,
+                LastName = userRequest.LastName,
+                NationalId = userRequest.NationalId,
+            };
 
             var result = await _userManager.UpdateAsync(userToUpdate);
 

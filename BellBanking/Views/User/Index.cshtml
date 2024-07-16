@@ -21,6 +21,7 @@
                     <th class="py-3 px-4 text-left text-gray-600">DNI</th>
                     <th class="py-3 px-4 text-left text-gray-600">User Type</th>
                     <th class="py-3 px-4 text-left text-gray-600">Status</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -50,6 +51,9 @@
                                     }
                                 </button>
                             </form>
+                        </td>
+                        <td>
+                            <a asp-action="index" asp-controller="Product" asp-all-route-data="@(new Dictionary<string, string>{{"userId", user.Id}})" class="border border-blue-600 text-blue-600 px-4 py-2 rounded-md bg-transparent text-sm">Products</a>
                         </td>
                     </tr>
                 }

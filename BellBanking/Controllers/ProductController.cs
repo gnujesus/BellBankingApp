@@ -34,9 +34,9 @@ namespace WebApp.BellBankingApp.Controllers
         }
 
         // GET: ProductController/Create
-        public IActionResult Create(string userId)
+        public IActionResult Create(string userId, bool isMain)
         {
-            SaveProductViewModel saveProduct = new(){ UserId = userId };            
+            SaveProductViewModel saveProduct = new(){ UserId = userId, IsMainAccount = isMain };            
             return View(saveProduct);
         }
 

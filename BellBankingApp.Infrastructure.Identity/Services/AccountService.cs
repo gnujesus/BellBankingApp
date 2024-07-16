@@ -32,7 +32,7 @@ namespace BellBankingApp.Infrastructure.Identity.Services
                 response.Error = $"No Accounts registered with {request.UserName}";
                 return response;
             }
-            if (user.IsActive)
+            if (!user.IsActive)
             {
                 response.HasError = true;
                 response.Error = $"the User {request.UserName} is Inactive";

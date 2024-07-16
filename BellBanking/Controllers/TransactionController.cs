@@ -6,10 +6,11 @@ using BellBankingApp.Core.Application.Services;
 using BellBankingApp.Core.Application.Enums;
 using BellBankingApp.Core.Application.Helpers;
 using Microsoft.AspNetCore.Http;
+using BellBanking.Middleware;
 
 namespace BellBankingApp.Web.Controllers
 {
-
+    [ServiceFilter(typeof(LoginAuthorize))]
     public class TransactionController : Controller
     {
 
@@ -33,6 +34,11 @@ namespace BellBankingApp.Web.Controllers
         {
             var user = _httpContextAccessor.HttpContext.Session.Get<AuthenticationResponse>(Roles.Customer.ToString()) ??
                        _httpContextAccessor.HttpContext.Session.Get<AuthenticationResponse>(Roles.Admin.ToString());
+
+            if (user == null)
+            {
+                return RedirectToRoute(new { controller = "Login", action = "Index" });
+            }
 
             var allBeneficiaries = await _beneficiaryService.GetAll();
             var userBeneficiaries = allBeneficiaries

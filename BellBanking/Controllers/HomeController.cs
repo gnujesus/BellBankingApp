@@ -4,10 +4,12 @@ using Microsoft.AspNetCore.Mvc;
 using BellBankingApp.Core.Application.Helpers;
 using BellBankingApp.Core.Application.DTOs.Account;
 using BellBankingApp.Core.Application.Enums;
+using BellBanking.Middleware;
 
 namespace BellBanking.Controllers
 {
     [Authorize]
+    [ServiceFilter(typeof(LoginAuthorize))]
     public class HomeController : Controller
     {
         private readonly IUserService _userService;
@@ -27,6 +29,7 @@ namespace BellBanking.Controllers
         {
             var user = _httpContextAccessor.HttpContext.Session.Get<AuthenticationResponse>(Roles.Customer.ToString()) ??
                        _httpContextAccessor.HttpContext.Session.Get<AuthenticationResponse>(Roles.Admin.ToString());
+
             
             var allTransactions = await _transactionService.GetAll();
             var userTransactions = allTransactions

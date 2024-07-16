@@ -1,4 +1,5 @@
-﻿using BellBankingApp.Core.Application.Interfaces.Services;
+﻿using BellBanking.Middleware;
+using BellBankingApp.Core.Application.Interfaces.Services;
 using BellBankingApp.Core.Application.ViewModels.Beneficiary;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -6,6 +7,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace WebApp.BellBankingApp.Controllers
 {
+    [ServiceFilter(typeof(LoginAuthorize))]
     public class BeneficiaryController : Controller
     {
         private readonly IBeneficiaryService _beneficiaryService;

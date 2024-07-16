@@ -19,11 +19,6 @@ namespace WebApp.BellBankingApp.Controllers
         {
             _productService = productService;
         }
-        // GET: ProductController
-        public IActionResult Index()
-        {
-            return View();
-        }
 
         public async Task<IActionResult> Index(string userId)
         {

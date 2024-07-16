@@ -17,6 +17,7 @@
                     <th class="py-3 px-4 text-left text-gray-600">Account Number</th>
                     <th class="py-3 px-4 text-left text-gray-600">User ID</th>
                     <th class="py-3 px-4 text-left text-gray-600">Type</th>
+                    <th class="py-3 px-4 text-left text-gray-600">Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -26,6 +27,11 @@
                         <td class="py-4 px-4">@product.AccountNumber</td>
                         <td class="py-4 px-4">@product.UserId</td>
                         <td class="py-4 px-4">@product.Type</td>
+                        <td class="py-4 px-4">
+                            <a asp-controller="Product" asp-action="Delete" asp-route-itemid="@product.Id" class="bg-red-600 text-white px-4 py-2 rounded-md text-sm">
+                                Delete
+                            </a>
+                        </td>
                     </tr>
                 }
             </tbody>
@@ -33,7 +39,7 @@
     </div>
 </div>
 
-<a asp-controller="Product" asp-action="New" class="fixed bottom-4 right-4 bg-blue-600 text-white px-4 py-2 rounded-md text-sm flex items-center shadow-md">
+<a asp-controller="Product" asp-action="Create" class="fixed bottom-4 right-4 bg-blue-600 text-white px-4 py-2 rounded-md text-sm flex items-center shadow-md">
     Create New Product <i class="fas fa-plus ml-2"></i>
 </a>
 

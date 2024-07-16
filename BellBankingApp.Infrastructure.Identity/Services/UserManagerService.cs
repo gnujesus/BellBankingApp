@@ -96,7 +96,7 @@ namespace BellBankingApp.Infrastructure.Identity.Services
 
             var userlist = _userManager.Users.ToList();
 
-            allUsers.users = _mapper.Map<List<GetUserResponse>>(userlist);
+            // allUsers.users = _mapper.Map<List<GetUserResponse>>(userlist);
 
             allUsers.users = userlist.Select(user => new GetUserResponse() 
             {

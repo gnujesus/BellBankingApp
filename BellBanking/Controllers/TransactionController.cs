@@ -50,7 +50,8 @@ namespace BellBankingApp.Web.Controllers
                 return NotFound();
             }
 
-            var product = await _productService.GetById(beneficiary.ProductId.Value);
+            //Quite .Value para que no cause error antes estaba var product = await _productService.GetById(beneficiary.ProductId.Value);
+            var product = await _productService.GetById(beneficiary.ProductId);
             if (product == null)
             {
                 return NotFound();

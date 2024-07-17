@@ -63,7 +63,7 @@ namespace WebApp.BellBankingApp.Controllers
 
             if (saveUserViewModel.Rol == Roles.Customer)
             {
-                return RedirectToRoute(new { controller = "Product", action = "Create", userId=saveUserViewModel.Id });
+                return RedirectToRoute(new { controller = "Product", action = "Create", userId=response.Id, isMain=true });
             }
             return RedirectToRoute(new { controller = "User", action = "Index" });
         }

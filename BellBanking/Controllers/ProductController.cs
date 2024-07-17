@@ -1,4 +1,5 @@
-﻿using BellBankingApp.Core.Application.DTOs.User;
+﻿using BellBanking.Middleware;
+using BellBankingApp.Core.Application.DTOs.User;
 using BellBankingApp.Core.Application.Helpers;
 using BellBankingApp.Core.Application.Interfaces.Services;
 using BellBankingApp.Core.Application.Services;
@@ -11,6 +12,7 @@ using System.Runtime.CompilerServices;
 
 namespace WebApp.BellBankingApp.Controllers
 {
+    [ServiceFilter(typeof(LoginAuthorize))]
     public class ProductController : Controller
     {
         private readonly IProductService _productService;

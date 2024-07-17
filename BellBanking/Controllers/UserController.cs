@@ -3,6 +3,7 @@ using BellBankingApp.Core.Application.DTOs.Account;
 using BellBankingApp.Core.Application.DTOs.User;
 using BellBankingApp.Core.Application.Enums;
 using BellBankingApp.Core.Application.Interfaces.Services;
+using BellBankingApp.Core.Application.ViewModels.Product;
 using BellBankingApp.Core.Application.ViewModels.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -48,7 +49,7 @@ namespace WebApp.BellBankingApp.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View(saveUserViewModel);
+                return View("Create", saveUserViewModel);
             }
 
             saveUserViewModel.IsActive = true;
@@ -58,12 +59,19 @@ namespace WebApp.BellBankingApp.Controllers
             {
                 saveUserViewModel.HasError = response.HasError;
                 saveUserViewModel.Error = response.Error;
-                return View(saveUserViewModel);
+                return View("Create", saveUserViewModel);
             }
 
             if (saveUserViewModel.Rol == Roles.Customer)
             {
-                return RedirectToRoute(new { controller = "Product", action = "Create", userId=response.Id, isMain=true });
+                SaveProductViewModel Newproduct = new()
+                {
+                    Amount = saveUserViewModel.Amount,
+                    UserId = response.Id,
+                    IsMainAccount = true,
+                    Type = Roles.Customer.ToString(),
+                };
+                return RedirectToRoute(new { controller = "Product", action = "CreateMainAccount", product = Newproduct});
             }
             return RedirectToRoute(new { controller = "User", action = "Index" });
         }

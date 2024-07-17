@@ -105,6 +105,7 @@ namespace BellBankingApp.Infrastructure.Identity.Services
         {
             GetAllUserResponse allUsers = new();
 
+
             var userlist = await _userManager.Users.ToListAsync();
 
             /*allUsers.users = userlist.Select(user => new GetUserResponse()

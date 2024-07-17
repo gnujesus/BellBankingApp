@@ -37,8 +37,8 @@
                 </select>
             </div>
             <div>
-                <label for="IsMainAccount" hidden class="">Type</label>
-                <input type="checkbox" checked="@Model.IsMainAccount" id="IsMainAccount" name="IsMainAccount" hidden />
+                <label asp-for="IsMainAccount" hidden class="">IsMain</label>
+                <input asp-for="IsMainAccount" id="IsMainAccount" name="IsMainAccount" hidden />
             </div>
 
             <div class="flex justify-end">

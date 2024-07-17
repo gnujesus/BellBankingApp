@@ -71,6 +71,8 @@ namespace BellBankingApp.Infrastructure.Identity.Services
 
             await _userManager.AddToRoleAsync(user, userRequest.Rol.ToString());
 
+            response.Id = user.Id;
+
             return response;
         }
 
@@ -105,7 +107,7 @@ namespace BellBankingApp.Infrastructure.Identity.Services
 
             var userlist = await _userManager.Users.ToListAsync();
 
-            allUsers.users = userlist.Select(user => new GetUserResponse()
+            /*allUsers.users = userlist.Select(user => new GetUserResponse()
             {
                 Id = user.Id,
                 IsActive = user.IsActive,
@@ -116,7 +118,28 @@ namespace BellBankingApp.Infrastructure.Identity.Services
                 UserName = user.UserName,
                 Rol = Roles.Customer.ToString()
                 
-            }).ToList();
+            }).ToList();*/
+
+            var userResponses = new List<GetUserResponse>();
+
+            foreach (var user in userlist)
+            {
+                var roles = await _userManager.GetRolesAsync(user);
+                var userResponse = new GetUserResponse()
+                {
+                    Id = user.Id,
+                    IsActive = user.IsActive,
+                    Email = user.Email,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    NationalId = user.NationalId,
+                    UserName = user.UserName,
+                    Rol = roles.First()
+                };
+                userResponses.Add(userResponse);
+            }
+
+            allUsers.users = userResponses;
 
             return allUsers;
         }

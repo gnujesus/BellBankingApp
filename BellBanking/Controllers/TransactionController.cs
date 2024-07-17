@@ -42,22 +42,29 @@ namespace BellBankingApp.Web.Controllers
             return View(userBeneficiaries);
         }
 
-        [HttpPost]
         public async Task<IActionResult> Transfer(int selectedBeneficiaryId)
         {
-            var beneficiary = await GetBeneficiaryById(selectedBeneficiaryId);
+            var beneficiary = await _beneficiaryService.GetById(selectedBeneficiaryId);
             if (beneficiary == null)
             {
                 return NotFound();
             }
 
-            var user = await _userService.GetById(beneficiary.UserId);
             var product = await _productService.GetById(beneficiary.ProductId.Value);
+            if (product == null)
+            {
+                return NotFound();
+            }
 
-            ViewBag.User = user;
-            ViewBag.Product = product;
+            var user = await _userService.GetById(product.UserId);
+            if (user == null)
+            {
+                return NotFound();
+            }
 
-            return View();
+            ViewBag.AccountNumber = product.AccountNumber;
+
+            return View(user);
         }
 
         private async Task<BeneficiaryViewModel> GetBeneficiaryById(int id)

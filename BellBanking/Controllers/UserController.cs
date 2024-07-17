@@ -1,4 +1,5 @@
-﻿using BellBanking.Middleware;
+﻿using AutoMapper;
+using BellBanking.Middleware;
 using BellBankingApp.Core.Application.DTOs.Account;
 using BellBankingApp.Core.Application.DTOs.User;
 using BellBankingApp.Core.Application.Enums;
@@ -14,10 +15,12 @@ namespace WebApp.BellBankingApp.Controllers
     public class UserController : Controller
     {
         private readonly IUserService _userService;
+        private readonly IMapper _mapper;
 
-        public UserController(IUserService userService)
+        public UserController(IUserService userService, IMapper mapper)
         {
             _userService = userService;
+            _mapper = mapper;
         }
         // GET: UserController
         public async Task<IActionResult> Index()
@@ -70,7 +73,7 @@ namespace WebApp.BellBankingApp.Controllers
         // GET: UserController/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
-            var user = await _userService.GetById(id);
+            var user = _mapper.Map<SaveUserViewModel>(await _userService.GetById(id));
             return View(user);
         }
 

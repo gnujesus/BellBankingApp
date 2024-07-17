@@ -54,5 +54,11 @@ namespace BellBankingApp.Core.Application.Services
             UpdateUserRequest updateUserRequest = _mapper.Map<UpdateUserRequest>(userRequest);
             return await _userManager.UpdateUser(updateUserRequest);
         }
+
+        public async Task UpdateUserStatus(UserViewModel user)
+        {
+            var updateUserRequest = _mapper.Map<UpdateUserRequest>(user);
+            await _userManager.UpdateUser(updateUserRequest);
+        }
     }
 }

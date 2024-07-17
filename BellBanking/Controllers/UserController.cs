@@ -1,12 +1,14 @@
-﻿using AutoMapper;
-using BellBanking.Middleware;
+
+﻿using BellBanking.Middleware;
 using BellBankingApp.Core.Application.DTOs.Account;
 using BellBankingApp.Core.Application.DTOs.User;
 using BellBankingApp.Core.Application.Enums;
 using BellBankingApp.Core.Application.Interfaces.Services;
+using BellBankingApp.Core.Application.ViewModels.Product;
 using BellBankingApp.Core.Application.ViewModels.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApp.BellBankingApp.Controllers
@@ -15,12 +17,10 @@ namespace WebApp.BellBankingApp.Controllers
     public class UserController : Controller
     {
         private readonly IUserService _userService;
-        private readonly IMapper _mapper;
 
-        public UserController(IUserService userService, IMapper mapper)
+        public UserController(IUserService userService)
         {
             _userService = userService;
-            _mapper = mapper;
         }
         // GET: UserController
         public async Task<IActionResult> Index()
@@ -50,7 +50,7 @@ namespace WebApp.BellBankingApp.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View(saveUserViewModel);
+                return View("Create", saveUserViewModel);
             }
 
             saveUserViewModel.IsActive = true;
@@ -60,12 +60,19 @@ namespace WebApp.BellBankingApp.Controllers
             {
                 saveUserViewModel.HasError = response.HasError;
                 saveUserViewModel.Error = response.Error;
-                return View(saveUserViewModel);
+                return View("Create", saveUserViewModel);
             }
 
             if (saveUserViewModel.Rol == Roles.Customer)
             {
-                return RedirectToRoute(new { controller = "Product", action = "Create", userId=response.Id, isMain=true });
+                SaveProductViewModel Newproduct = new()
+                {
+                    Amount = saveUserViewModel.Amount,
+                    UserId = response.Id,
+                    IsMainAccount = true,
+                    Type = Roles.Customer.ToString(),
+                };
+                return RedirectToRoute(new { controller = "Product", action = "CreateMainAccount", product = Newproduct});
             }
             return RedirectToRoute(new { controller = "User", action = "Index" });
         }
@@ -73,7 +80,7 @@ namespace WebApp.BellBankingApp.Controllers
         // GET: UserController/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
-            var user = _mapper.Map<SaveUserViewModel>(await _userService.GetById(id));
+            var user = await _userService.GetById(id);
             return View(user);
         }
 
@@ -111,6 +118,21 @@ namespace WebApp.BellBankingApp.Controllers
         {
             await _userService.DeleteUser(id);
             return RedirectToRoute(new { controller = "User", action = "Index" });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangeStatus(string userId)
+        {
+            var user = await _userService.GetById(userId);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            user.IsActive = !user.IsActive;
+            await _userService.UpdateUserStatus(user);
+
+            return RedirectToAction("Index");
         }
     }
 }

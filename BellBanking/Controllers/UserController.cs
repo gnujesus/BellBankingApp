@@ -6,6 +6,7 @@ using BellBankingApp.Core.Application.Interfaces.Services;
 using BellBankingApp.Core.Application.ViewModels.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApp.BellBankingApp.Controllers
@@ -108,6 +109,21 @@ namespace WebApp.BellBankingApp.Controllers
         {
             await _userService.DeleteUser(id);
             return RedirectToRoute(new { controller = "User", action = "Index" });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangeStatus(string userId)
+        {
+            var user = await _userService.GetById(userId);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            user.IsActive = !user.IsActive;
+            await _userService.UpdateUserStatus(user);
+
+            return RedirectToAction("Index");
         }
     }
 }

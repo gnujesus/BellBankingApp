@@ -182,31 +182,80 @@ namespace BellBankingApp.Infrastructure.Identity.Services
             return getUser;
         }
 
+        //public async Task<UpdateUserResponse> UpdateUser(UpdateUserRequest userRequest)
+        //{
+        //    UpdateUserResponse userDeleteResponse = new();
+
+        //    var userToUpdate = new ApplicationUser()
+        //    {
+        //        UserName = userRequest.UserName,
+        //        IsActive = userRequest.IsActive,
+        //        Email = userRequest.Email,
+        //        FirstName = userRequest.FirstName,
+        //        LastName = userRequest.LastName,
+        //        NationalId = userRequest.NationalId,
+        //    };
+
+        //    var result = await _userManager.UpdateAsync(userToUpdate);
+
+        //    if (!result.Succeeded)
+        //    {
+        //        userDeleteResponse.HasError = true;
+        //        userDeleteResponse.Error = result.Errors.First().ToString();
+        //        return userDeleteResponse;
+        //    }
+
+        //    return userDeleteResponse;
+        //}
+
+
+
         public async Task<UpdateUserResponse> UpdateUser(UpdateUserRequest userRequest)
         {
-            UpdateUserResponse userDeleteResponse = new();
+            UpdateUserResponse updateUserResponse = new();
 
-            var userToUpdate = new ApplicationUser()
+            var userToUpdate = await _userManager.FindByIdAsync(userRequest.Id);
+
+            if (userToUpdate == null)
             {
-                UserName = userRequest.UserName,
-                IsActive = userRequest.IsActive,
-                Email = userRequest.Email,
-                FirstName = userRequest.FirstName,
-                LastName = userRequest.LastName,
-                NationalId = userRequest.NationalId,
-            };
+                updateUserResponse.HasError = true;
+                updateUserResponse.Error = "No user found with this Id";
+                return updateUserResponse;
+            }
+
+            // Update user properties
+            userToUpdate.IsActive = userRequest.IsActive;
+            userToUpdate.Email = userRequest.Email;
+            userToUpdate.FirstName = userRequest.FirstName;
+            userToUpdate.LastName = userRequest.LastName;
+            userToUpdate.NationalId = userRequest.NationalId;
+
+            // Check if the username is being changed
+            if (userToUpdate.UserName != userRequest.UserName)
+            {
+                var userWithSameUserName = await _userManager.FindByNameAsync(userRequest.UserName);
+                if (userWithSameUserName != null)
+                {
+                    updateUserResponse.HasError = true;
+                    updateUserResponse.Error = $"Username '{userRequest.UserName}' is already taken.";
+                    return updateUserResponse;
+                }
+                userToUpdate.UserName = userRequest.UserName;
+            }
 
             var result = await _userManager.UpdateAsync(userToUpdate);
 
             if (!result.Succeeded)
             {
-                userDeleteResponse.HasError = true;
-                userDeleteResponse.Error = result.Errors.First().ToString();
-                return userDeleteResponse;
+                updateUserResponse.HasError = true;
+                updateUserResponse.Error = result.Errors.First().ToString();
+                return updateUserResponse;
             }
 
-            return userDeleteResponse;
+            return updateUserResponse;
         }
+
+
 
         private async Task<string> GetUserRole(ApplicationUser user) 
         {

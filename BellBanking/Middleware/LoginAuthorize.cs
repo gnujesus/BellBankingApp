@@ -1,4 +1,5 @@
 ﻿using BellBanking.Controllers;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace BellBanking.Middleware
@@ -14,15 +15,19 @@ namespace BellBanking.Middleware
 
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
-            if (_validateUserSession.HasSession())
+            var controllerName = context.RouteData.Values["controller"]?.ToString();
+
+            // Exclude Login controller to avoid redirection loop
+            if (controllerName != "Login")
             {
-                var controller = (LoginController)context.Controller;
-                context.Result = controller.RedirectToAction("index", "login");
+                if (!_validateUserSession.HasSession())
+                {
+                    context.Result = new RedirectToActionResult("Index", "Login", null);
+                    return;
+                }
             }
-            else
-            {
-                await next();
-            }
+
+            await next();
         }
     }
 }

@@ -1,13 +1,16 @@
-﻿using BellBankingApp.Core.Application.DTOs.Account;
+﻿using BellBanking.Middleware;
+using BellBankingApp.Core.Application.DTOs.Account;
 using BellBankingApp.Core.Application.DTOs.User;
 using BellBankingApp.Core.Application.Enums;
 using BellBankingApp.Core.Application.Interfaces.Services;
 using BellBankingApp.Core.Application.ViewModels.User;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApp.BellBankingApp.Controllers
 {
+    [ServiceFilter(typeof(LoginAuthorize))]
     public class UserController : Controller
     {
         private readonly IUserService _userService;

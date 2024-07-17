@@ -11,6 +11,8 @@ namespace BellBankingApp.Core.Domain.Entities
     {
         public string AccountNumber { get; set; }
         public string UserId { get; set; }
+        public double Amount { get; set; }
+        public bool IsMainAccount { get; set; }
         public string Type { get; set; }
 
 

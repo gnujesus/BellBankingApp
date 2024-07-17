@@ -26,6 +26,9 @@ namespace BellBankingApp.Core.Application.ViewModels.User
         [DataType(DataType.Text)]
         public string Username { get; set; }
 
+        [Required(ErrorMessage = "Must Enter a Amount")]
+        public double Amount { get; set; }
+
         [Required(ErrorMessage = "Must enter a Password")]
         [DataType(DataType.Password)]
         public string Password { get; set; }

@@ -54,6 +54,8 @@ namespace BellBankingApp.Core.Application.Mapping
                 .ForMember(x => x.Error, opt => opt.Ignore())
                 .ReverseMap();
 
+            // Add this mapping
+            CreateMap<UserViewModel, UpdateUserRequest>();
             #endregion
 
             #region Product

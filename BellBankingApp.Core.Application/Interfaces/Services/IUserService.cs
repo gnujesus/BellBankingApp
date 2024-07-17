@@ -16,5 +16,6 @@ namespace BellBankingApp.Core.Application.Interfaces.Services
         Task<CreateUserResponse> CreateUser(SaveUserViewModel userRequest);
         Task<UpdateUserResponse> UpdateUser(SaveUserViewModel userRequest);
         Task<DeleteUserResponse> DeleteUser(string Id);
+        Task UpdateUserStatus(UserViewModel user);
     }
 }

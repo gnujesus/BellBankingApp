@@ -1,10 +1,11 @@
 ﻿@model SaveUserViewModel
 
 <div class="container mx-auto p-4 max-w-7xl">
-    <h1 class="text-2xl font-bold mb-4">Create New User</h1>
+    <h1 class="text-2xl font-bold mb-4">Edit User</h1>
 
     <div class="bg-white p-6 rounded-lg shadow-md">
-        <form asp-controller="User" asp-action="Create" method="post">
+        <form asp-controller="User" asp-action="Edit" method="post">
+            <input type="hidden" asp-for="Id" />
             <div class="grid grid-cols-2 gap-4 mb-4">
                 <div>
                     <label asp-for="FirstName" class="block text-gray-700"></label>
@@ -62,7 +63,7 @@
 
             <div class="flex justify-end">
                 <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-md text-sm">
-                    Create User
+                    Update User
                 </button>
             </div>
         </form>

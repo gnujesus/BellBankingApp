@@ -52,5 +52,12 @@ namespace BellBankingApp.Core.Application.Services
             entityList = entityList.Where(x => x.UserId == userId).ToList();
             return _mapper.Map<List<ProductViewModel>>(entityList);
         }
+
+        public async Task<List<ProductViewModel>> GetProductTypebyUserId(string userId, ProductType productType)
+        {
+            var entityList = await _productRepository.GetAllAsync();
+            entityList = entityList.Where(x => x.UserId == userId && x.Type == productType.ToString()).ToList();
+            return _mapper.Map<List<ProductViewModel>>(entityList);
+        }
     }
 }

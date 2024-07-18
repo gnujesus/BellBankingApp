@@ -65,14 +65,7 @@ namespace WebApp.BellBankingApp.Controllers
 
             if (saveUserViewModel.Rol == Roles.Customer)
             {
-                SaveProductViewModel Newproduct = new()
-                {
-                    Amount = saveUserViewModel.Amount,
-                    UserId = response.Id,
-                    IsMainAccount = true,
-                    Type = Roles.Customer.ToString(),
-                };
-                return RedirectToRoute(new { controller = "Product", action = "CreateMainAccount", product = Newproduct});
+                return RedirectToRoute(new { controller = "Product", action = "CreateMainAccount", userId=response.Id, amount= saveUserViewModel.Amount });
             }
             return RedirectToRoute(new { controller = "User", action = "Index" });
         }
@@ -80,7 +73,7 @@ namespace WebApp.BellBankingApp.Controllers
         // GET: UserController/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
-            var user = await _userService.GetById(id);
+            var user = await _userService.GetSaveVMById(id);
             return View(user);
         }
 

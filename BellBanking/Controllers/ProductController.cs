@@ -32,6 +32,12 @@ namespace WebApp.BellBankingApp.Controllers
             return View(productList);
         }
 
+        public async Task<IActionResult> ProductsHistory()
+        {
+            List<ProductViewModel> productList = await _productService.GetAll();
+            return View(productList);
+        }
+
         // GET: ProductController/Details/5
         public ActionResult Details(int id)
         {
@@ -39,9 +45,10 @@ namespace WebApp.BellBankingApp.Controllers
         }
 
         // GET: ProductController/Create
-        public IActionResult Create(string userId, bool isMain)
+        public IActionResult Create(string id)
         {
-            SaveProductViewModel saveProduct = new(){ UserId = userId, IsMainAccount = isMain };            
+            SaveProductViewModel saveProduct = new(){ UserId = id, IsMainAccount = false };
+            ViewBag.UserId = id;
             return View(saveProduct);
         }
 
@@ -50,10 +57,7 @@ namespace WebApp.BellBankingApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(SaveProductViewModel saveProduct)
         {
-            if (!ModelState.IsValid)
-            {
-                return View(saveProduct);
-            }
+            
 
             SaveProductViewModel response = await _productService.Create(saveProduct);
             if (response.HasError)

@@ -6,7 +6,7 @@
         <p>Are you sure you want to delete the product @Model.AccountNumber?</p>
 
         <div class="flex justify-end mt-4 space-x-4">
-            <form asp-controller="Product" asp-action="Delete" method="post">
+            <form asp-controller="Product" asp-action="DeletePost" method="post">
                 <input type="hidden" name="Id" value="@Model.Id" />
                 <button type="submit" class="bg-red-600 text-white px-4 py-2 rounded-md text-sm">
                     Yes

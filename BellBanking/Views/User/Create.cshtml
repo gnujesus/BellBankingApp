@@ -57,7 +57,7 @@
 
             <div class="mb-4">
                 <label asp-for="Rol" class="block text-gray-700"></label>
-                <select asp-for="Rol" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm h-10 px-2">
+                <select asp-for="Rol" id="rolSelect" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm h-10 px-2">
                     @foreach (var role in Enum.GetValues(typeof(Roles)))
                     {
                         <option value="@role">@role</option>
@@ -66,7 +66,8 @@
                 <span asp-validation-for="Rol" class="text-red-500 text-xs"></span>
             </div>
 
-            <div class="mb-4">
+            <!-- Campo Amount -->
+            <div class="mb-4" id="montoField" style="display: none;">
                 <label asp-for="Amount" class="block text-gray-700"></label>
                 <input asp-for="Amount" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm h-10 px-2" />
                 <span asp-validation-for="Amount" class="text-red-500 text-xs"></span>
@@ -84,8 +85,19 @@
 <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 
 @section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+    <script type="text/javascript">
+        document.getElementById('rolSelect').addEventListener('change', function () {
+            var montoField = document.getElementById('montoField');
+            if (this.value === 'Customer') {
+                montoField.style.display = 'block';
+            } else {
+                montoField.style.display = 'none';
+            }
+        });
+
+        // Trigger the change event on page load to set the initial state
+        document.getElementById('rolSelect').dispatchEvent(new Event('change'));
+    </script>
 }
+
 

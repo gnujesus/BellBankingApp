@@ -5,6 +5,7 @@ using BellBankingApp.Core.Application.Helpers;
 using BellBankingApp.Core.Application.DTOs.Account;
 using BellBankingApp.Core.Application.Enums;
 using BellBanking.Middleware;
+using System.Security.Claims;
 
 namespace BellBanking.Controllers
 {
@@ -38,7 +39,9 @@ namespace BellBanking.Controllers
                 .Take(4)
                 .ToList();
 
-
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var products = await _productService.GetAllbyUserId(userId);
+            ViewBag.UserProducts = products.Take(4); // Take only the first 4 products
             ViewBag.UserTransactions = userTransactions;
 
             return View();

@@ -24,28 +24,31 @@
         <div class="border border-gray-200 rounded-md col-span-2 flex flex-col space-y-6">
             <!-- Main Personal Account Section -->
             <div class="bg-white p-4 rounded-lg shadow-md flex flex-col justify-between h-full">
-                <div>
-                    <h2 class="text-sm font-semibold text-blue-600">Main Personal Account</h2>
-                    <div class="flex items-center space-x-4">
-                        <p class="text-black text-base">9608627533</p>
-                        <button class="flex items-center bg-white border border-blue-500 text-blue-500 px-3 py-1 rounded-md text-xs">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 384 512">
-                                <path fill="currentColor" d="M280 64h40c35.3 0 64 28.7 64 64V448c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V128C0 92.7 28.7 64 64 64h40 9.6C121 27.5 153.3 0 192 0s71 27.5 78.4 64H280zM64 112c-8.8 0-16 7.2-16 16V448c0 8.8 7.2 16 16 16H320c8.8 0 16-7.2 16-16V128c0-8.8-7.2-16-16-16H304v24c0 13.3-10.7 24-24 24H192 104c-13.3 0-24-10.7-24-24V112H64zm128-8a24 24 0 1 0 0-48 24 24 0 1 0 0 48z" />
-                            </svg>
-                            Copy
-                        </button>
+                @if (user.Role == Roles.Customer.ToString())
+                {
+                    <div>
+                        <h2 class="text-sm font-semibold text-blue-600">Main Personal Account</h2>
+                        <div class="flex items-center space-x-4">
+                            <p class="text-black text-base">9608627533</p>
+                            <button class="flex items-center bg-white border border-blue-500 text-blue-500 px-3 py-1 rounded-md text-xs">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 384 512">
+                                    <path fill="currentColor" d="M280 64h40c35.3 0 64 28.7 64 64V448c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V128C0 92.7 28.7 64 64 64h40 9.6C121 27.5 153.3 0 192 0s71 27.5 78.4 64H280zM64 112c-8.8 0-16 7.2-16 16V448c0 8.8 7.2 16 16 16H320c8.8 0 16-7.2 16-16V128c0-8.8-7.2-16-16-16H304v24c0 13.3-10.7 24-24 24H192 104c-13.3 0-24-10.7-24-24V112H64zm128-8a24 24 0 1 0 0-48 24 24 0 1 0 0 48z" />
+                                </svg>
+                                Copy
+                            </button>
+                        </div>
                     </div>
-                </div>
 
-                <div class="flex-grow"></div> <!-- This will create the space you need -->
-                <div class="mt-8">
-                    <p class="text-gray-600 text-sm">Account Balance</p>
-                    <h3 class="text-4xl font-medium mb-4">24,760.75 RD$</h3>
-                    <div class="flex space-x-2 mt-8">
-                        <a asp-controller="Transaction" asp-action="Index" class="bg-blue-600 text-white px-4 py-2 rounded-md text-sm">New Transfer</a>
-                        <button class="border border-blue-600 text-blue-600 px-4 py-2 rounded-md bg-transparent text-sm">Full History</button>
+                    <div class="mt-2">
+                        <p class="text-gray-600 text-sm">Account Balance</p>
+                        <h3 class="text-4xl font-medium mb-4">24,760.75 RD$</h3>
+                        <div class="flex space-x-2 mt-2">
+                            <a asp-controller="Transaction" asp-action="Index" class="bg-blue-600 text-white px-4 py-2 rounded-md text-sm">New Transfer</a>
+                            <button class="border border-blue-600 text-blue-600 px-4 py-2 rounded-md bg-transparent text-sm">Full History</button>
+                        </div>
                     </div>
-                </div>
+                }
+
                 <div class="mt-8 flex-grow">
                     <table class="min-w-full bg-white text-xs">
                         <thead>
@@ -60,6 +63,7 @@
                         </thead>
                         <tbody>
                             @foreach (var transaction in ViewBag.UserTransactions)
+
                             {
                                 <tr class="border-b">
                                     <td class="py-6">@transaction.DateCreated</td>
@@ -72,6 +76,14 @@
                             }
                         </tbody>
                     </table>
+                    @if (user.Role == Roles.Admin.ToString())
+                    {
+                        <div class="flex justify-end mt-4">
+                            <a asp-controller="Transaction" asp-action="AllTransactionsHistory" class="bg-blue-600 text-white px-4 py-2 rounded-md text-sm">
+                                See All Transactions
+                            </a>
+                        </div>
+                    }
                 </div>
             </div>
         </div>
@@ -82,31 +94,22 @@
             <div class="border border-gray-200 rounded-md bg-white p-4 rounded-lg shadow-md flex-grow">
                 <div class="flex justify-between items-center mb-4">
                     <h2 class="text-xl font-semibold">My Products</h2>
-                    <button class="flex font-medium items-center text-black text-base">
+                    <a asp-controller="Product" asp-action="Index" class="flex font-medium items-center text-black text-base">
                         See All
                         <svg xmlns="http://www.w3.org/2000/svg" class="ml-2 h-4 w-4" viewBox="0 0 448 512">
                             <path fill="currentColor" d="M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z" />
                         </svg>
-                    </button>
+                    </a>
                 </div>
                 <div class="max-h-40 overflow-y-auto">
                     <ul class="space-y-2 text-sm">
-                        <li class="flex justify-between">
-                            <span>7533, DOP</span>
-                            <span class="text-green-500">+200.33 RD$</span>
-                        </li>
-                        <li class="flex justify-between">
-                            <span>7534, DOP</span>
-                            <span class="text-red-500">-33.93 RD$</span>
-                        </li>
-                        <li class="flex justify-between">
-                            <span>7535, DOP</span>
-                            <span class="text-green-500">+100.50 RD$</span>
-                        </li>
-                        <li class="flex justify-between">
-                            <span>7536, DOP</span>
-                            <span class="text-red-500">-50.00 RD$</span>
-                        </li>
+                        @foreach (var product in ViewBag.UserProducts)
+                        {
+                            <li class="flex justify-between">
+                                <span>@product.AccountNumber, @product.Type</span>
+                                <span>@product.Balance RD$</span>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>

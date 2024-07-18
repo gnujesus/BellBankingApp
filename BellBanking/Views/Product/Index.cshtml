@@ -1,3 +1,11 @@
+@inject IHttpContextAccessor httpContextAccessor
+@{
+    var user = httpContextAccessor.HttpContext.Session.Get<AuthenticationResponse>(Roles.Customer.ToString()) ??
+               httpContextAccessor.HttpContext.Session.Get<AuthenticationResponse>(Roles.Admin.ToString());
+
+    bool isCustomer = user.Role == Roles.Customer.ToString();
+}
+
 @model List<ProductViewModel>
 
 <div class="container mx-auto p-4 max-w-7xl">
@@ -15,9 +23,9 @@
             <thead>
                 <tr>
                     <th class="py-3 px-4 text-left text-gray-600">Account Number</th>
-                    <th class="py-3 px-4 text-left text-gray-600">User ID</th>
                     <th class="py-3 px-4 text-left text-gray-600">Type</th>
                     <th class="py-3 px-4 text-left text-gray-600">ProductId</th>
+                    <th class="py-3 px-4 text-left text-gray-600">Amount</th>
                     <th class="py-3 px-4 text-left text-gray-600">Action</th>
                 </tr>
             </thead>
@@ -26,13 +34,22 @@
                 {
                     <tr class="border-b">
                         <td class="py-4 px-4">@product.AccountNumber</td>
-                        <td class="py-4 px-4">@product.UserId</td>
                         <td class="py-4 px-4">@product.Type</td>
-                        <td class="py-4 px-4"> Aqui Product Id: @product.Id</td>
+                        <td class="py-4 px-4">Product Id: @product.Id</td>
+                        <td class="py-4 px-4">@* Placeholder for Amount *@</td>
                         <td class="py-4 px-4">
-                            <a asp-controller="Product" asp-action="Delete" asp-route-id="@product.Id" class="bg-red-600 text-white px-4 py-2 rounded-md text-sm">
-                                Delete
-                            </a>
+                            @if (isCustomer)
+                            {
+                                <a asp-controller="Product" asp-action="Details" asp-route-id="@product.Id" class="bg-blue-600 text-white px-4 py-2 rounded-md text-sm">
+                                    Show
+                                </a>
+                            }
+                            else
+                            {
+                                <a asp-controller="Product" asp-action="Delete" asp-route-id="@product.Id" class="bg-red-600 text-white px-4 py-2 rounded-md text-sm">
+                                    Delete
+                                </a>
+                            }
                         </td>
                     </tr>
                 }
@@ -41,9 +58,11 @@
     </div>
 </div>
 
-<a asp-controller="Product" asp-action="Create" asp-route-id="@ViewBag.UserId" class="fixed bottom-8 right-8 bg-blue-600 text-white px-5 py-3 rounded-md text-sm flex items-center shadow-md">
-    Create New Product <i class="fas fa-plus ml-2"></i>
-</a>
+@if (!isCustomer)
+{
+    <a asp-controller="Product" asp-action="Create" asp-route-id="@ViewBag.UserId" class="fixed bottom-8 right-8 bg-blue-600 text-white px-5 py-3 rounded-md text-sm flex items-center shadow-md">
+        Create New Product <i class="fas fa-plus ml-2"></i>
+    </a>
+}
 
 <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-

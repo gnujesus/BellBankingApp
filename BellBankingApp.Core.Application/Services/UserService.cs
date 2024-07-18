@@ -43,6 +43,12 @@ namespace BellBankingApp.Core.Application.Services
             return _mapper.Map<UserViewModel>(user);
         }
 
+        public async Task<SaveUserViewModel> GetSaveVMById(string id)
+        {
+            var user = await _userManager.GetById(id);
+            return _mapper.Map<SaveUserViewModel>(user);
+        }
+
         public async Task<UserViewModel> GetByUserName(string userName)
         {
             var user = await _userManager.GetByUserName(userName);

@@ -1,5 +1,7 @@
-﻿using BellBanking.Middleware;
+﻿using Azure;
+using BellBanking.Middleware;
 using BellBankingApp.Core.Application.DTOs.User;
+using BellBankingApp.Core.Application.Enums;
 using BellBankingApp.Core.Application.Helpers;
 using BellBankingApp.Core.Application.Interfaces.Services;
 using BellBankingApp.Core.Application.Services;
@@ -59,6 +61,35 @@ namespace WebApp.BellBankingApp.Controllers
                 saveProduct.HasError = response.HasError;
                 saveProduct.Error = response.Error;
                 return View(saveProduct);
+            }
+
+            return RedirectToRoute(new { controller = "User", action = "Index" });
+
+        }
+
+        public IActionResult CreateMainAccount(string userId, double amount)
+        {
+            SaveProductViewModel newProduct = new()
+            {
+                Amount = amount,
+                UserId = userId,
+                IsMainAccount = true,
+                Type = ProductType.SavingAccount.ToString(),
+            };
+            return View(newProduct);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateMainAccountPost(SaveProductViewModel product)
+        {
+
+            SaveProductViewModel response = await _productService.Create(product);
+            if (response.HasError)
+            {
+                product.HasError = response.HasError;
+                product.Error = response.Error;
+                return View(product);
             }
 
             return RedirectToRoute(new { controller = "User", action = "Index" });

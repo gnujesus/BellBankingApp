@@ -32,6 +32,12 @@ namespace WebApp.BellBankingApp.Controllers
             return View(productList);
         }
 
+        public async Task<IActionResult> ProductsHistory()
+        {
+            List<ProductViewModel> productList = await _productService.GetAll();
+            return View(productList);
+        }
+
         // GET: ProductController/Details/5
         public ActionResult Details(int id)
         {

@@ -1,0 +1,62 @@
+﻿@model SaveTransactionViewModel
+
+@inject IUserService _userService
+@inject IHttpContextAccessor httpContextAccessor
+@{
+
+    AuthenticationResponse user = new();
+    var admin = httpContextAccessor.HttpContext.Session.Get<AuthenticationResponse>(Roles.Admin.ToString());
+    var customer = httpContextAccessor.HttpContext.Session.Get<AuthenticationResponse>(Roles.Customer.ToString());
+    if (admin != null)
+    {
+        user = admin;
+    }
+    else
+    {
+        user = customer;
+    }
+}
+
+<div class="container mx-auto p-4 max-w-7xl">
+    <h1 class="text-2xl font-bold mb-4">Create New Payment</h1>
+
+    <div class="bg-white p-6 rounded-lg shadow-md">
+        <form asp-controller="Transaction" asp-action="Confirm" method="post">
+            <div class="mb-4">
+                <label asp-for="OriginProductId" class="block text-gray-700">Select Credit Card</label>
+                <select asp-for="OriginProductId" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm" required>
+                    @foreach (var creditCard in creditCards)
+                    {
+                        <option value="@creditCard.Id">@creditCard.AccountNumber</option>
+                    }
+                </select>
+                <span asp-validation-for="OriginProductId" class="text-red-500 text-xs"></span>
+            </div>
+
+            <div class="mb-4">
+                <label asp-for="DestinationProductId" class="block text-gray-700">Select Saving Account</label>
+                <select asp-for="DestinationProductId" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm" required>
+                    @foreach (var savingAccount in savingAccounts)
+                    {
+                        <option value="@savingAccount.Id">@savingAccount.AccountNumber</option>
+                    }
+                </select>
+                <span asp-validation-for="DestinationProductId" class="text-red-500 text-xs"></span>
+            </div>
+
+            <div class="mb-4">
+                <label asp-for="Amount" class="block text-gray-700">Amount</label>
+                <input asp-for="Amount" type="number" step="0.01" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm" required />
+                <span asp-validation-for="Amount" class="text-red-500 text-xs"></span>
+            </div>
+
+            <div class="flex justify-end">
+                <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-md text-sm">
+                    Proceed to Confirm
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>

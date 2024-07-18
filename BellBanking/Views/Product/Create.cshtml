@@ -11,16 +11,22 @@
 
     <div class="bg-white p-6 rounded-lg shadow-md">
         <form asp-controller="Product" asp-action="Create" method="post">
-            <div class="mb-4">
+            <!-- Si quieres seleccionar un UserId desde la vista -->
+            <!-- <div class="mb-4">
                 <label for="userId" class="block text-gray-700">User</label>
                 <select id="userId" name="UserId" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm">
-                    @foreach (var user in users)
-                    {
-                        <option value="@user.Id">@user.Username</option>
-                    }
+            @foreach (var user in users)
+            {
+                            <option value="@user.Id">@user.Username</option>
+            }
                 </select>
-            </div>
+            </div> -->
 
+            <div class="mb-4">
+                <label for="UserId" class="block text-gray-700">UserId</label>
+                <input type="text" asp-for="UserId" id="UserId" name="UserId" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm" readonly />
+                <input type="hidden" asp-for="UserId" id="UserIdHidden" name="UserId" />
+            </div>
 
             <div class="mb-4">
                 <label for="Amount" class="block text-gray-700">Amount</label>
@@ -36,10 +42,8 @@
                     }
                 </select>
             </div>
-            <div>
-                <label asp-for="IsMainAccount" hidden class="">IsMain</label>
-                <input asp-for="IsMainAccount" id="IsMainAccount" name="IsMainAccount" hidden />
-            </div>
+
+            <input type="hidden" asp-for="IsMainAccount" id="IsMainAccount" name="IsMainAccount" />
 
             <div class="flex justify-end">
                 <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-md text-sm">

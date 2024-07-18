@@ -63,7 +63,6 @@
                         </thead>
                         <tbody>
                             @foreach (var transaction in ViewBag.UserTransactions)
-
                             {
                                 <tr class="border-b">
                                     <td class="py-6">@transaction.DateCreated</td>
@@ -88,35 +87,35 @@
             </div>
         </div>
 
-        <!-- Right Column -->
-        <div class="col-span-1 flex flex-col space-y-6">
-            <!-- My Products Section -->
-            <div class="border border-gray-200 rounded-md bg-white p-4 rounded-lg shadow-md flex-grow">
-                <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-xl font-semibold">My Products</h2>
-                    <a asp-controller="Product" asp-action="Index" class="flex font-medium items-center text-black text-base">
-                        See All
-                        <svg xmlns="http://www.w3.org/2000/svg" class="ml-2 h-4 w-4" viewBox="0 0 448 512">
-                            <path fill="currentColor" d="M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z" />
-                        </svg>
-                    </a>
+        @if (user.Role == Roles.Customer.ToString())
+        {
+            <!-- Right Column -->
+            <div class="col-span-1 flex flex-col space-y-6">
+                <!-- My Products Section -->
+                <div class="border border-gray-200 rounded-md bg-white p-4 rounded-lg shadow-md flex-grow">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-xl font-semibold">My Products</h2>
+                        <a asp-controller="Product" asp-action="Index" class="flex font-medium items-center text-black text-base">
+                            See All
+                            <svg xmlns="http://www.w3.org/2000/svg" class="ml-2 h-4 w-4" viewBox="0 0 448 512">
+                                <path fill="currentColor" d="M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z" />
+                            </svg>
+                        </a>
+                    </div>
+                    <div class="max-h-40 overflow-y-auto">
+                        <ul class="space-y-2 text-sm">
+                            @foreach (var product in ViewBag.UserProducts)
+                            {
+                                <li class="flex justify-between">
+                                    <span>@product.AccountNumber, @product.Type</span>
+                                    <span>@product.Balance RD$</span>
+                                </li>
+                            }
+                        </ul>
+                    </div>
                 </div>
-                <div class="max-h-40 overflow-y-auto">
-                    <ul class="space-y-2 text-sm">
-                        @foreach (var product in ViewBag.UserProducts)
-                        {
-                            <li class="flex justify-between">
-                                <span>@product.AccountNumber, @product.Type</span>
-                                <span>@product.Balance RD$</span>
-                            </li>
-                        }
-                    </ul>
-                </div>
-            </div>
 
-            <!-- Conditional Offer or Admin Buttons Section -->
-            @if (user.Role == Roles.Customer.ToString())
-            {
+                <!-- Conditional Offer Section -->
                 <div class="bg-gray-200 rounded-lg shadow-md relative h-48 flex-grow">
                     <div class="absolute inset-0 bg-cover bg-center rounded-lg" style="background-image: url('/static/images/offer-image.jpg');"></div>
                     <div class="absolute top-0 left-0 m-4 px-2 py-1 bg-black bg-opacity-50 rounded text-xs"><span class="text-white">Limited Offer</span></div>
@@ -125,41 +124,42 @@
                         <button class="bg-white text-black px-4 py-1 rounded-md mt-2 text-sm w-1/2">Show Details</button>
                     </div>
                 </div>
-            }
-            else if (user.Role == Roles.Admin.ToString())
-            {
-                <div class="grid grid-cols-2 gap-4">
-                    <a asp-controller="User" asp-action="Index" class="bg-white border border-gray-200 shadow-md rounded-md text-gray-800 flex flex-col items-center justify-center p-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" />
-                            <path d="M0 0h24v24H0z" fill="none" />
-                        </svg>
-                        <span class="mt-2">Users</span>
-                    </a>
-                    <a href="#" class="bg-white border border-gray-200 shadow-md rounded-md text-gray-800 flex flex-col items-center justify-center p-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" />
-                            <path d="M0 0h24v24H0z" fill="none" />
-                        </svg>
-                        <span class="mt-2">Payments</span>
-                    </a>
-                    <a asp-controller="Product" asp-action="ProductsHistory" class="bg-white border border-gray-200 shadow-md rounded-md text-gray-800 flex flex-col items-center justify-center p-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" />
-                            <path d="M0 0h24v24H0z" fill="none" />
-                        </svg>
-                        <span class="mt-2">Products</span>
-                    </a>
-                    <a asp-controller="Transaction" asp-action="AllTransactionsHistory" class="bg-white border border-gray-200 shadow-md rounded-md text-gray-800 flex flex-col items-center justify-center p-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" />
-                            <path d="M0 0h24v24H0z" fill="none" />
-                        </svg>
-                        <span class="mt-2">System Transactions</span>
-                    </a>
-                </div>
-            }
-        </div>
+            </div>
+        }
+        else if (user.Role == Roles.Admin.ToString())
+        {
+            <!-- Admin Buttons Section -->
+            <div class="grid grid-cols-2 gap-4">
+                <a asp-controller="User" asp-action="Index" class="bg-white border border-gray-200 shadow-md rounded-md text-gray-800 flex flex-col items-center justify-center p-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" />
+                        <path d="M0 0h24v24H0z" fill="none" />
+                    </svg>
+                    <span class="mt-2">Users</span>
+                </a>
+                <a href="#" class="bg-white border border-gray-200 shadow-md rounded-md text-gray-800 flex flex-col items-center justify-center p-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" />
+                        <path d="M0 0h24v24H0z" fill="none" />
+                    </svg>
+                    <span class="mt-2">Payments</span>
+                </a>
+                <a asp-controller="Product" asp-action="ProductsHistory" class="bg-white border border-gray-200 shadow-md rounded-md text-gray-800 flex flex-col items-center justify-center p-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" />
+                        <path d="M0 0h24v24H0z" fill="none" />
+                    </svg>
+                    <span class="mt-2">Products</span>
+                </a>
+                <a asp-controller="Transaction" asp-action="AllTransactionsHistory" class="bg-white border border-gray-200 shadow-md rounded-md text-gray-800 flex flex-col items-center justify-center p-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" />
+                        <path d="M0 0h24v24H0z" fill="none" />
+                    </svg>
+                    <span class="mt-2">System Transactions</span>
+                </a>
+            </div>
+        }
     </div>
 </div>
 

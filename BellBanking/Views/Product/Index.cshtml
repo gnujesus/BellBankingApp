@@ -41,7 +41,7 @@
     </div>
 </div>
 
-<a asp-controller="Product" asp-action="Create" class="fixed bottom-8 right-8 bg-blue-600 text-white px-5 py-3 rounded-md text-sm flex items-center shadow-md">
+<a asp-controller="Product" asp-action="Create" asp-route-id="@ViewBag.UserId" class="fixed bottom-8 right-8 bg-blue-600 text-white px-5 py-3 rounded-md text-sm flex items-center shadow-md">
     Create New Product <i class="fas fa-plus ml-2"></i>
 </a>
 

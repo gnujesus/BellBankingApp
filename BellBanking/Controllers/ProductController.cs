@@ -9,6 +9,7 @@ using BellBankingApp.Core.Application.ViewModels.Product;
 using BellBankingApp.Core.Application.ViewModels.User;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Concurrent;
 using System.Runtime.CompilerServices;
 
@@ -127,7 +128,7 @@ namespace WebApp.BellBankingApp.Controllers
 
             await _productService.Update(saveProductViewModel, saveProductViewModel.Id);
 
-            return RedirectToRoute(new { controller = "User", action = "Index" });
+            return RedirectToRoute(new { controller = "Product", action = "index" });
         }
 
         // GET: ProductController/Delete/5
@@ -143,7 +144,7 @@ namespace WebApp.BellBankingApp.Controllers
         public async Task<IActionResult> DeletePost(int id)
         {
             await _productService.Delete(id);
-            return RedirectToAction(nameof(Index));
+            return RedirectToRoute(new { controller = "User", action = "Index" });
         }
     }
 }

@@ -123,6 +123,7 @@ namespace WebApp.BellBankingApp.Controllers
 
             foreach(var p in products)
             {
+                
                 if(p.AccountNumber == productNumber)
                 {
                     var beneficiary = new SaveBeneficiaryViewModel
@@ -135,10 +136,8 @@ namespace WebApp.BellBankingApp.Controllers
                     result = await _beneficiaryService.Create(beneficiary);
                 }
 
+                
             }
-
-
-
 
             if (result.HasError)
             {

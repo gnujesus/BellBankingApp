@@ -72,15 +72,16 @@ namespace BellBankingApp.Web.Controllers
             ViewBag.UserProducts = products;
             ViewBag.UserBeneficiaries = userBeneficiaries;
 
-            return View(userViewModels); 
+            return View(userBeneficiaries); 
         }
 
-        public async Task<IActionResult> Transfer(int selectedBeneficiaryId)
+        public async Task<IActionResult> Transfer(int id)
         {
-            var beneficiary = await _beneficiaryService.GetById(selectedBeneficiaryId);
+
+            var beneficiary = await _beneficiaryService.GetById(id);
             if (beneficiary == null)
             {
-                return NotFound();
+                return View();
             }
 
             //Quite .Value para que no cause error antes estaba var product = await _productService.GetById(beneficiary.ProductId.Value);

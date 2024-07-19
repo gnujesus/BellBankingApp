@@ -29,8 +29,16 @@ namespace WebApp.BellBankingApp.Controllers
         public async Task<IActionResult> Index(string userId)
         {
             List<ProductViewModel> productList = await _productService.GetAllbyUserId(userId);
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                // Handle the case where userId is not found (e.g., user not logged in)
+                return RedirectToAction("Login", "Account");
+            }
+
             ViewBag.UserId = userId;
             return View(productList);
+
         }
 
         public async Task<IActionResult> ProductsHistory()

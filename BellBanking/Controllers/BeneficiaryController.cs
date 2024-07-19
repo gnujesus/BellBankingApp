@@ -175,13 +175,11 @@ namespace WebApp.BellBankingApp.Controllers
             return View(beneficiary);
         }
 
-        // POST: BeneficiaryController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(string id)
         {
-            await _beneficiaryService.Delete(id);
-            return View("Index");
+            return RedirectToAction("Index");
         }
     }
 }

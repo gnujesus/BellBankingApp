@@ -36,7 +36,8 @@ namespace BellBankingApp.Core.Application.Services
 
         public override Task<SaveBeneficiaryViewModel> Create(SaveBeneficiaryViewModel vm)
         {
-            vm.UserId = currentUser.Id;
+            //vm.UserId = currentUser.Id;
+            vm.BeneficiaryUserId = "Creo que no es Necesario";
             return base.Create(vm);
         }
     }

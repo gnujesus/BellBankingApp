@@ -1,0 +1,138 @@
+﻿@model List<UserViewModel>
+
+@inject IHttpContextAccessor httpContextAccessor
+@{
+    AuthenticationResponse user = new();
+    var admin = httpContextAccessor.HttpContext.Session.Get<AuthenticationResponse>(Roles.Admin.ToString());
+    var customer = httpContextAccessor.HttpContext.Session.Get<AuthenticationResponse>(Roles.Customer.ToString());
+    if (admin != null)
+    {
+        user = admin;
+    }
+    else
+    {
+        user = customer;
+    }
+
+    var products = ViewBag.Products as List<ProductViewModel>;
+}
+
+<div class="container mx-auto p-4 max-w-7xl">
+    <h2 class="text-2xl font-bold mb-2">We need some more data before we can proceed, @user.UserName</h2>
+
+    <div class="mt-4">
+        <div class="flex justify-between items-center">
+            <div class="flex space-x-4">
+                <a class="underline underline-offset-8">
+                    Beneficiaries
+                </a>
+                <a class="text-gray-700" asp-controller="Transaction" asp-action="Index2">
+                    My Products
+                </a>
+            </div>
+            <p class="text-gray-600 text-sm">Total: @Model.Count Beneficiaries</p>
+        </div>
+
+        <div class="flex justify-end mb-4">
+            <button type="button" class="bg-blue-600 text-white px-4 py-2 rounded-md text-sm" onclick="showModal()">
+                Create Beneficiary
+            </button>
+        </div>
+
+        <div class="overflow-x-auto mt-4">
+            <table class="min-w-full bg-white text-sm">
+                <thead>
+                    <tr>
+                        <th class="py-3 px-4 text-left text-gray-600">First Name</th>
+                        <th class="py-3 px-4 text-left text-gray-600">Last Name</th>
+                        <th class="py-3 px-4 text-left text-gray-600">National ID</th>
+                        <th class="py-3 px-4 text-left text-gray-600">Product Number</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var beneficiary in Model)
+                    {
+                        <tr class="border-b">
+                            <td class="py-4 px-4">@beneficiary.FirstName</td>
+                            <td class="py-4 px-4">@beneficiary.LastName</td>
+                            <td class="py-4 px-4">@beneficiary.NationalId</td>
+                            <td class="py-4 px-4">
+                                @{
+                                    var product = products.FirstOrDefault(p => p.UserId == beneficiary.Id);
+                                    if (product != null)
+                                    {
+                                        @product.AccountNumber
+                                    }
+                                }
+                            </td>
+                            <td class="py-4 px-4">
+                                <form asp-controller="Beneficiary" asp-action="Delete" method="post" onsubmit="return confirm('Are you sure you want to delete this beneficiary?');">
+                                    <input type="hidden" name="id" value="@beneficiary.Id" />
+                                    <button type="submit" class="bg-red-600 text-white px-4 py-2 rounded-md text-sm">
+                                        Delete
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div id="createBeneficiaryModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+    <div class="bg-white rounded-md shadow-md p-6 max-w-md w-full">
+        <div class="flex justify-between items-center">
+            <h5 class="text-xl font-bold">Create Beneficiary</h5>
+            <button type="button" class="text-red-500" onclick="hideModal()">&times;</button>
+        </div>
+        <form id="beneficiaryForm">
+            <div class="mb-4">
+                <label for="productNumber" class="block text-gray-700">Product Number</label>
+                <input type="text" id="productNumber" name="productNumber" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm h-10 px-2" required />
+            </div>
+        </form>
+        <div class="flex justify-end mt-4">
+            <button type="button" class="bg-red-500 text-white px-4 py-2 rounded-md text-sm mr-2" onclick="hideModal()">Close</button>
+            <button type="button" class="bg-blue-600 text-white px-4 py-2 rounded-md text-sm" onclick="createBeneficiary()">Create</button>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+
+@section Scripts {
+    <script type="text/javascript">
+        function showModal() {
+            document.getElementById('createBeneficiaryModal').classList.remove('hidden');
+        }
+
+        function hideModal() {
+            document.getElementById('createBeneficiaryModal').classList.add('hidden');
+        }
+
+        function createBeneficiary() {
+            var form = $('#beneficiaryForm');
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("CreateBeneficiary", "Beneficiary")',
+                data: form.serialize(),
+                success: function (response) {
+                    if (response.success) {
+                        location.reload();
+                    } else {
+                        alert(response.message);
+                    }
+                },
+                error: function () {
+                    alert('An error occurred. Please try again.');
+                }
+            });
+        }
+    </script>
+}

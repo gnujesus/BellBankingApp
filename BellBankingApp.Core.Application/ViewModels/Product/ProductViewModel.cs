@@ -10,6 +10,7 @@ namespace BellBankingApp.Core.Application.ViewModels.Product
 {
     public class ProductViewModel
     {
+        public DateTime? DateCreated { get; set; }
         public int Id { get; set; }
         public string? AccountNumber { get; set; }
         public string? UserId { get; set; }

@@ -7,6 +7,8 @@ using BellBankingApp.Core.Application.Enums;
 using BellBankingApp.Core.Application.Helpers;
 using Microsoft.AspNetCore.Http;
 using BellBanking.Middleware;
+using BellBankingApp.Core.Application.ViewModels.User;
+using System.Security.Claims;
 
 namespace BellBankingApp.Web.Controllers
 {
@@ -40,12 +42,37 @@ namespace BellBankingApp.Web.Controllers
                 return RedirectToRoute(new { controller = "Login", action = "Index" });
             }
 
+            var userId = user.Id;
+
             var allBeneficiaries = await _beneficiaryService.GetAll();
             var userBeneficiaries = allBeneficiaries
                 .Where(b => b.UserId == user.Id)
                 .ToList();
+            var products = await _productService.GetAllbyUserId(userId);
 
-            return View(userBeneficiaries);
+            var userViewModels = new List<UserViewModel>();
+
+            foreach (var beneficiary in userBeneficiaries)
+            {
+                // Get the product associated with this beneficiary
+                var product = await _productService.GetById(beneficiary.ProductId.Value);
+
+                if (product != null)
+                {
+                    // Get the user associated with this product
+                    var u = await _userService.GetById(product.UserId);
+
+                    if (u != null)
+                    {
+                        userViewModels.Add(u);
+                    }
+                }
+            }
+
+            ViewBag.UserProducts = products;
+            ViewBag.UserBeneficiaries = userBeneficiaries;
+
+            return View(userViewModels); 
         }
 
         public async Task<IActionResult> Transfer(int selectedBeneficiaryId)
@@ -74,6 +101,23 @@ namespace BellBankingApp.Web.Controllers
             return View(user);
         }
 
+        public async Task<IActionResult> Index2()
+        {
+            var userId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                // Handle the case where userId is not found (e.g., user not logged in)
+                return RedirectToAction("Login", "Account");
+            }
+
+            var products = await _productService.GetAllbyUserId(userId);
+
+            return View(products);
+        }
+
+
+
         private async Task<BeneficiaryViewModel> GetBeneficiaryById(int id)
         {
             // Implement your logic to get the beneficiary by id
@@ -92,6 +136,7 @@ namespace BellBankingApp.Web.Controllers
             var sortedTransactions = allTransactions.OrderByDescending(t => t.DateCreated).ToList();
             return View(sortedTransactions);
         }
+
 
     }
 

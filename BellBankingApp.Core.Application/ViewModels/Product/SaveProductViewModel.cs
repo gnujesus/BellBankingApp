@@ -20,6 +20,7 @@ namespace BellBankingApp.Core.Application.ViewModels.Product
         public string? AccountNumber { get; set; }
         public string? UserId { get; set; }
         public double? Amount { get; set; }
+        public double? AmountLimit { get; set; }
         public bool IsMainAccount { get; set; }
         public bool HasError { get; set; }
         public string? Error { get; set; }

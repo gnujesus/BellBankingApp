@@ -268,6 +268,12 @@ namespace BellBankingApp.Infrastructure.Identity.Services
 
             var result = await _userManager.UpdateAsync(userToUpdate);
 
+            if (userRequest.Password != null)
+            {
+                await _userManager.RemovePasswordAsync(userToUpdate);
+                await _userManager.AddPasswordAsync(userToUpdate, userRequest.Password);
+            }
+
             if (!result.Succeeded)
             {
                 updateUserResponse.HasError = true;

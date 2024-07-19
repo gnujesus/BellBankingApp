@@ -26,13 +26,11 @@ namespace BellBankingApp.Core.Application.ViewModels.User
         [Required(ErrorMessage = "Must Enter an Username")]
         [DataType(DataType.Text)]
         public string Username { get; set; }
+        public double? Amount { get; set; }
 
-        [Required(ErrorMessage = "Must Enter a Amount")]
-        public double Amount { get; set; }
-
-        public string Password { get; set; }
-
-        public string ConfirmPassword { get; set; }
+        public string? Password { get; set; }
+        [Compare(nameof(Password), ErrorMessage = "Both Password must match")]
+        public string? ConfirmPassword { get; set; }
 
         [Required(ErrorMessage = "Must Enter a National ID")]
         [DataType(DataType.Text)]

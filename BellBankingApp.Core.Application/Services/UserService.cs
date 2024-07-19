@@ -49,13 +49,19 @@ namespace BellBankingApp.Core.Application.Services
             return _mapper.Map<SaveUserViewModel>(user);
         }
 
+        public async Task<UpdateUserViewModel> GetUpdateVMById(string id)
+        {
+            var user = await _userManager.GetById(id);
+            return _mapper.Map<UpdateUserViewModel>(user);
+        }
+
         public async Task<UserViewModel> GetByUserName(string userName)
         {
             var user = await _userManager.GetByUserName(userName);
             return _mapper.Map<UserViewModel>(user);
         }
 
-        public async Task<UpdateUserResponse> UpdateUser(SaveUserViewModel userRequest)
+        public async Task<UpdateUserResponse> UpdateUser(UpdateUserViewModel userRequest)
         {
             UpdateUserRequest updateUserRequest = _mapper.Map<UpdateUserRequest>(userRequest);
             return await _userManager.UpdateUser(updateUserRequest);

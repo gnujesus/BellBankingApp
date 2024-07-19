@@ -13,9 +13,10 @@ namespace BellBankingApp.Core.Application.Interfaces.Services
         Task<List<UserViewModel>> GetAll();
         Task<UserViewModel> GetById(string id);
         Task<SaveUserViewModel> GetSaveVMById(string id);
+        Task<UpdateUserViewModel> GetUpdateVMById(string id);
         Task<UserViewModel> GetByUserName(string userName);
         Task<CreateUserResponse> CreateUser(SaveUserViewModel userRequest);
-        Task<UpdateUserResponse> UpdateUser(SaveUserViewModel userRequest);
+        Task<UpdateUserResponse> UpdateUser(UpdateUserViewModel userRequest);
         Task<DeleteUserResponse> DeleteUser(string Id);
         Task UpdateUserStatus(UserViewModel user);
     }

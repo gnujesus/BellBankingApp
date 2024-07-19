@@ -17,6 +17,8 @@ namespace BellBankingApp.Core.Application.ViewModels.Beneficiary
         [Required(ErrorMessage = "You must enter an Account number")]
         public string AccountNumber { get; set; }
 
+        public string? BeneficiaryUserId { get; set; }
+
         public List<ProductViewModel>? Products { get; set; }
         public string? UserId { get; set; }
         public bool HasError { get; set; }

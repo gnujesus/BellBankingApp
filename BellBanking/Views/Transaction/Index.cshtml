@@ -1,4 +1,4 @@
-﻿@model List<UserViewModel>
+﻿@model List<BeneficiaryViewModel>
 
 @inject IHttpContextAccessor httpContextAccessor
 @{
@@ -33,29 +33,24 @@
             <p class="text-gray-600 text-sm">Total: @Model.Count Beneficiaries</p>
         </div>
 
-        <form method="post" asp-action="Transfer" asp-controller="Transaction">
+        <div>
             <div class="overflow-x-auto mt-4">
                 <table class="min-w-full bg-white text-sm">
                     <thead>
                         <tr>
-                            <th class="py-3 px-4 text-left text-gray-600">Selected</th>
-                            <th class="py-3 px-4 text-left text-gray-600">First Name</th>
-                            <th class="py-3 px-4 text-left text-gray-600">Last Name</th>
-                            <th class="py-3 px-4 text-left text-gray-600">DNI</th>
-                            <th class="py-3 px-4 text-left text-gray-600">Account Type</th>
+                            <th class="py-3 px-4 text-left text-gray-600">Product Id</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (var beneficiary in Model)
                         {
                             <tr class="border-b">
+                                <td class="py-4 px-4">@beneficiary.ProductId</td>
                                 <td class="py-4 px-4">
-                                    <input type="radio" name="selectedBeneficiaryId" value="@beneficiary.Id" />
+                                    <a asp-controller="Transaction" asp-action="Transfer" asp-route-id="@beneficiary.Id" class="bg-blue-600 text-white px-4 py-2 rounded-md text-sm flex items-center">
+                                        Send <i class="fas fa-arrow-right ml-2"></i>
+                                    </a>
                                 </td>
-                                <td class="py-4 px-4">@beneficiary.FirstName</td>
-                                <td class="py-4 px-4">@beneficiary.LastName</td>
-                                <td class="py-4 px-4">@beneficiary.NationalId</td>
-                                <td class="py-4 px-4">@beneficiary.Rol</td>
                             </tr>
                         }
                     </tbody>
@@ -63,15 +58,11 @@
             </div>
 
             <div class="flex justify-end mt-4 gap-3">
-                <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-md text-sm flex items-center">
-                    Next Step <i class="fas fa-arrow-right ml-2"></i>
-                </button>
-
                 <a asp-controller="Transaction" asp-action="Transfer" class="bg-blue-600 text-white px-4 py-2 rounded-md text-sm flex items-center">
                     Unique Transaction <i class="fas fa-plus ml-2"></i>
                 </a>
             </div>
-        </form>
+        </div>
     </div>
 </div>
 

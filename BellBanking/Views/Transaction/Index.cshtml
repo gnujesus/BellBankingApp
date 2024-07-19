@@ -2,7 +2,6 @@
 
 @inject IHttpContextAccessor httpContextAccessor
 @{
-    ViewData["Title"] = "Home Page";
 
     AuthenticationResponse user = new();
     var admin = httpContextAccessor.HttpContext.Session.Get<AuthenticationResponse>(Roles.Admin.ToString());

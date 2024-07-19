@@ -1,4 +1,4 @@
-﻿@model List<UserViewModel>
+﻿@model List<ProductViewModel>
 
 @inject IHttpContextAccessor httpContextAccessor
 @{
@@ -23,14 +23,14 @@
     <div class="mt-4">
         <div class="flex justify-between items-center">
             <div class="flex space-x-4">
-                <a class="underline underline-offset-8">
+                <a class="text-gray-700" asp-controller="Transaction" asp-action="Index">
                     Beneficiaries
                 </a>
-                <a class="text-gray-700" asp-controller="Transaction" asp-action="Index2">
-                    My Products  
+                <a class="underline underline-offset-8">
+                    My Products
                 </a>
             </div>
-            <p class="text-gray-600 text-sm">Total: @Model.Count Beneficiaries</p>
+            <p class="text-gray-600 text-sm">Total: @Model.Count Products</p>
         </div>
 
         <form method="post" asp-action="Transfer" asp-controller="Transaction">
@@ -39,23 +39,21 @@
                     <thead>
                         <tr>
                             <th class="py-3 px-4 text-left text-gray-600">Selected</th>
-                            <th class="py-3 px-4 text-left text-gray-600">First Name</th>
-                            <th class="py-3 px-4 text-left text-gray-600">Last Name</th>
-                            <th class="py-3 px-4 text-left text-gray-600">DNI</th>
-                            <th class="py-3 px-4 text-left text-gray-600">Account Type</th>
+                            <th class="py-3 px-4 text-left text-gray-600">Account Number</th>
+                            <th class="py-3 px-4 text-left text-gray-600">Type</th>
+                            <th class="py-3 px-4 text-left text-gray-600">Funds</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var beneficiary in Model)
+                        @foreach (var product in Model)
                         {
                             <tr class="border-b">
                                 <td class="py-4 px-4">
-                                    <input type="radio" name="selectedBeneficiaryId" value="@beneficiary.Id" />
+                                    <input type="radio" name="selectedProductId" value="@product.Id" />
                                 </td>
-                                <td class="py-4 px-4">@beneficiary.FirstName</td>
-                                <td class="py-4 px-4">@beneficiary.LastName</td>
-                                <td class="py-4 px-4">@beneficiary.NationalId</td>
-                                <td class="py-4 px-4">@beneficiary.Rol</td>
+                                <td class="py-4 px-4">@product.AccountNumber</td>
+                                <td class="py-4 px-4">@product.Type</td>
+                                <td class="py-4 px-4">@product.Amount</td>
                             </tr>
                         }
                     </tbody>
@@ -67,7 +65,7 @@
                     Next Step <i class="fas fa-arrow-right ml-2"></i>
                 </button>
 
-                <a asp-controller="Transaction" asp-action="Transfer" class="bg-blue-600 text-white px-4 py-2 rounded-md text-sm flex items-center">
+                <a href="#" class="bg-blue-600 text-white px-4 py-2 rounded-md text-sm flex items-center">
                     Unique Transaction <i class="fas fa-plus ml-2"></i>
                 </a>
             </div>

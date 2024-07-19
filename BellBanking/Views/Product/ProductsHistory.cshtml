@@ -17,7 +17,7 @@
                     <th class="py-3 px-4 text-left text-gray-600">Account Number</th>
                     <th class="py-3 px-4 text-left text-gray-600">User ID</th>
                     <th class="py-3 px-4 text-left text-gray-600">Type</th>
-                    <th class="py-3 px-4 text-left text-gray-600">ProductId</th>
+                    <th class="py-3 px-4 text-left text-gray-600">Date Created</th> 
                 </tr>
             </thead>
             <tbody>
@@ -27,7 +27,7 @@
                         <td class="py-4 px-4">@product.AccountNumber</td>
                         <td class="py-4 px-4">@product.UserId</td>
                         <td class="py-4 px-4">@product.Type</td>
-                        <td class="py-4 px-4"> Aqui Product Id: @product.Id</td>
+                        <td class="py-4 px-4">@product.DateCreated?.ToString("yyyy-MM-dd")</td> 
                     </tr>
                 }
             </tbody>
@@ -36,4 +36,3 @@
 </div>
 
 <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-

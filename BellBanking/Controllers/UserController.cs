@@ -73,26 +73,31 @@ namespace WebApp.BellBankingApp.Controllers
         // GET: UserController/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
-            var user = await _userService.GetSaveVMById(id);
+            var user = await _userService.GetUpdateVMById(id);
             return View(user);
         }
 
         // POST: UserController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(SaveUserViewModel saveUserViewModel)
+        public async Task<IActionResult> Edit(UpdateUserViewModel UpdateUserViewModel)
         {
             if (!ModelState.IsValid)
             {
-                return View(saveUserViewModel);
+                return View(UpdateUserViewModel);
             }
 
-            UpdateUserResponse response = await _userService.UpdateUser(saveUserViewModel);
+            UpdateUserResponse response = await _userService.UpdateUser(UpdateUserViewModel);
             if (response.HasError)
             {
-                saveUserViewModel.HasError = response.HasError;
-                saveUserViewModel.Error = response.Error;
-                return View(saveUserViewModel);
+                UpdateUserViewModel.HasError = response.HasError;
+                UpdateUserViewModel.Error = response.Error;
+                return View(UpdateUserViewModel);
+            }
+
+            if (UpdateUserViewModel.Amount != null)
+            {
+                //ToDo
             }
             return RedirectToRoute(new { controller = "User", action = "Index" });
         }

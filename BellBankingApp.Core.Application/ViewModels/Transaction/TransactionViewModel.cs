@@ -1,5 +1,6 @@
 
 ﻿using BellBankingApp.Core.Application.ViewModels.Product;
+using BellBankingApp.Core.Application.ViewModels.User;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +20,7 @@ namespace BellBankingApp.Core.Application.ViewModels.Transaction
         // Navigation properties
         public ProductViewModel? OriginProduct { get; set; }
         public ProductViewModel? DestinationProduct { get; set; }
+        public UserViewModel? User { get; set; }
     }
 }
 

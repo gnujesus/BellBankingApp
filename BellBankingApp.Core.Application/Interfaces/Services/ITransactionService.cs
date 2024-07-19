@@ -10,5 +10,10 @@ namespace BellBankingApp.Core.Application.Interfaces.Services
 {
     public interface ITransactionService : IGenericService<SaveTransactionViewModel, TransactionViewModel, Transaction>
     {
+        Task<SaveTransactionViewModel> ExpressPayment(SaveTransactionViewModel transaction);
+        Task<SaveTransactionViewModel> CreditCardPayment(SaveTransactionViewModel transaction);
+        Task<SaveTransactionViewModel> LoanPayment(SaveTransactionViewModel transaction);
+        Task<SaveTransactionViewModel> ValidateExpressPayment(SaveTransactionViewModel transaction);
+
     }
 }

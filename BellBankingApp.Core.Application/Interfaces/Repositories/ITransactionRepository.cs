@@ -9,5 +9,6 @@ namespace BellBankingApp.Core.Application.Interfaces.Repositories
 {
     public interface ITransactionRepository : IGenericRepository<Transaction>
     {
+
     }
 }
